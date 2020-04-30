@@ -79,7 +79,18 @@
               style="width:130px;float:right;"
             ></el-input>
           </div>
-
+   <el-upload
+            :before-upload="selImg"
+            :id="'s_'+idx"
+            class="avatar-uploader"
+            style="width:178px;"
+            :action="uploadPath"
+            :show-file-list="false"
+            :on-success="upload"
+          >
+            <img v-if="item.url" :src="item.url" class="avatar" />
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+          </el-upload>
           <div style="float:right;  margin-right:0px;" v-if="isSave">
             <el-button plain size="mini" @click="delRow(idx)">删除</el-button>
             <el-button plain size="mini" @click="addRow">增加</el-button>
@@ -338,7 +349,7 @@ export default {
         return;
       }
 
-   
+
       if (pars.goodsDetail == "") {
         this.$message({
           message: "请输入商品详情",
@@ -364,6 +375,7 @@ export default {
       this.update();
     },
     upload(res, file) {
+      debugger
       let idx =
         this.imgIdx.indexOf("s") != -1
           ? parseInt(this.imgIdx.split("_")[1])
@@ -414,10 +426,10 @@ export default {
       this.update();
     },
     update() {
-      let temp = this.form.goodsWeight;
-      this.form.goodsWeight = "";
+      let temp = this.form.name;
+      this.form.name = "";
       setTimeout(() => {
-        this.form.goodsWeight = temp;
+        this.form.name = temp;
         this.changeCategory();
       }, 1000);
     },
@@ -439,7 +451,7 @@ export default {
 .row {
   width: 100%;
   border-bottom: 1px solid #ccc;
-  height: 50px;
+  height: 221px !important;
   padding-bottom: 10px;
   padding-top: 5px;
 }
