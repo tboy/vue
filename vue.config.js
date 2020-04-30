@@ -25,7 +25,7 @@ module.exports = {
    * Detail: https://cli.vuejs.org/config/#publicpath
    * http://192.168.0.28:3000/root/whitecity
    */
-  publicPath: '/youdu/',
+  publicPath: '/',
   outputDir: 'dist',
   assetsDir: 'static',
   lintOnSave: process.env.NODE_ENV === 'development',
@@ -42,7 +42,7 @@ module.exports = {
       // detail: https://cli.vuejs.org/config/#devserver-proxy
       [process.env.VUE_APP_BASE_API]: {
        // target: 'http://192.168.0.69:9002/youdu', //修改后台接口地址
-       target: 'http://192.168.0.28:9002/youdu', //正式
+       target: 'http://localhost:9002/', //正式
         changeOrigin: true,
         ws: false,
         pathRewrite: {

@@ -32,7 +32,7 @@
   .row {
     width: 100%;
     border-bottom: 1px solid #ccc;
-    height: 200px;
+    height: 50px;
     padding-bottom: 10px;
     padding-top: 5px;
   }

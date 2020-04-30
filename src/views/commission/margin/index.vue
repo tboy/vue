@@ -8,7 +8,7 @@
     <!-- 表格 -->
     <el-table :data="list" stripe border fit highlight-current-row
               style="width: 100%;min-height:100px;" >
-      <el-table-column prop="list.name" label="大管+经营大类" min-width="100px" align="center">
+      <el-table-column prop="list.name" label="经营大类" min-width="100px" align="center">
         <template slot-scope="scope">
           <span>{{scope.row.name}}</span>
         </template>
@@ -20,42 +20,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="分配佣金费率" align="center">
 
-        <el-table-column prop="list.categoryMarginList.tmallNub" label="天猫平台参考数" min-width="100px" align="center">
-          <template slot-scope="scope">
-            <p v-for="item in scope.row.categoryMarginList">{{item.tmallNub}}%</p>
-          </template>
-        </el-table-column>
-
-<!--        <el-table-column prop="list.categoryMarginList.deduction" label="抵扣券" min-width="100px" align="center">-->
-<!--          <template slot-scope="scope">-->
-<!--            <p v-for="item in scope.row.categoryMarginList">{{item.deduction}}%</p>-->
-<!--          </template>-->
-<!--        </el-table-column>-->
-
-        <el-table-column prop="list.categoryMarginList.commission" label="可分配佣金" min-width="100px" align="center">
-          <template slot-scope="scope">
-            <p v-for="item in scope.row.categoryMarginList">{{item.commission}}%</p>
-          </template>
-        </el-table-column>
-      </el-table-column>
-
-      <el-table-column prop="list.categoryMarginList.margin" label="保证金(元)" min-width="100px" align="center">
-        <template slot-scope="scope">
-          <p v-for="item in scope.row.categoryMarginList">{{item.margin}}</p>
-        </template>
-      </el-table-column>
-      <el-table-column prop="list.categoryMarginList.margin" label="商家店铺上架数量" min-width="100px" align="center">
-        <template slot-scope="scope">
-          <p v-for="item in scope.row.categoryMarginList">{{item.eNum}}</p>
-        </template>
-      </el-table-column>
-      <el-table-column prop="list.categoryMarginList.margin" label="供应商上架数量" min-width="100px" align="center">
-        <template slot-scope="scope">
-          <p v-for="item in scope.row.categoryMarginList">{{item.sNum}}</p>
-        </template>
-      </el-table-column>
       <el-table-column  label="操作" min-width="100px" align="center">
         <template slot-scope="scope">
           <p >
@@ -69,10 +34,10 @@
     <!-- 增/改弹窗 -->
     <el-dialog :visible.sync="dialogFormVisible">
       <el-form   ref="dataForm" label-position="center" label-width="150px" :model="form">
-        <span><h3>添加类目</h3></span>
+        <span><h3>添加经营大类</h3></span>
         <el-input type="hidden" :rows="2" v-model="form.id"></el-input>
-        <el-form-item label="经营类目" prop="name">
-          <el-input type="text" :rows="2"  v-model="form.name" placeholder="请输入经营类目"></el-input>
+        <el-form-item label="经营大类" prop="name">
+          <el-input type="text" :rows="2"  v-model="form.name" placeholder="请输入经营大类"></el-input>
         </el-form-item>
 
         <span><h3>类目详情</h3></span>
@@ -80,36 +45,7 @@
           <el-form-item label="一级类目" prop="name">
             <el-input type="text" :rows="2"  v-model="form.categoryMarginList[index].name" placeholder="请输入一级类目"></el-input>
           </el-form-item>
-          <el-col :span="12">
-            <el-form-item label="天猫平台参考数" prop="tmallNub" >
-              <el-input type="number" :rows="2" v-model="form.categoryMarginList[index].tmallNub" placeholder="请输入天猫平台参考数"></el-input>
-            </el-form-item>
-          </el-col>
-<!--          <el-col :span="12">-->
-<!--            <el-form-item label="抵扣卷" prop="deduction" >-->
-<!--              <el-input type="number" :rows="2"  v-model="form.categoryMarginList[index].deduction" placeholder="请输入抵扣卷"></el-input>-->
-<!--            </el-form-item>-->
-<!--          </el-col>-->
-          <el-col :span="12">
-            <el-form-item label="可分配佣金" prop="commission" >
-              <el-input type="number" :rows="2"    v-model="form.categoryMarginList[index].commission" placeholder="请输入可分配佣金"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="保证金" prop="margin" >
-              <el-input type="number" :rows="2"  v-model="form.categoryMarginList[index].margin" placeholder="请输入保证金"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="商家上架数" prop="margin" >
-              <el-input type="number" :rows="2"  v-model="form.categoryMarginList[index].eNum" placeholder="请输入商家上架数"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="供应商上架数" prop="margin" >
-              <el-input type="number" :rows="2"  v-model="form.categoryMarginList[index].sNum" placeholder="请输入供应商上架数"></el-input>
-            </el-form-item>
-          </el-col>
+          
         </el-col>
       </el-form>
       <el-button  type="primary" @click="addCate">增加类目</el-button>

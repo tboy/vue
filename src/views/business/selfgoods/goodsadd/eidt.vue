@@ -40,9 +40,7 @@
         <div style="width:100%;">商品图片尺寸：698*298px，主图大小不能超过800K；</div>
       </el-form-item>
       <el-form-item label="商品规格:">
-        <el-checkbox-group v-model="form.isSales">
-          <el-checkbox label="是否分销" value="1" name="isSales"></el-checkbox>
-        </el-checkbox-group>
+
 
         <div class="row" v-for="(item,idx) in form.goodsSpecifications">
           <div>
@@ -63,12 +61,12 @@
               style="width:110px;float:right;"
             ></el-input>
           </div>
-          <div v-if="form.isSales">
-            分销佣金：
+          <div>
+            原价：
             <el-input
               type="number"
               v-model="item.commission"
-              placeholder="请输入分销佣金"
+              placeholder="请输入原价"
               style="width:110px;float:right;"
             ></el-input>
           </div>
@@ -81,37 +79,18 @@
               style="width:130px;float:right;"
             ></el-input>
           </div>
-          <el-upload
-            :before-upload="selImg"
-            :id="'s_'+idx"
-            class="avatar-uploader"
-            style="width:178px;"
-            :action="uploadPath"
-            :show-file-list="false"
-            :on-success="upload"
-          >
-            <img v-if="item.url" :src="item.url" class="avatar" />
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-          </el-upload>
+
           <div style="float:right;  margin-right:0px;" v-if="isSave">
             <el-button plain size="mini" @click="delRow(idx)">删除</el-button>
             <el-button plain size="mini" @click="addRow">增加</el-button>
           </div>
         </div>
         <br />
-        <el-form-item label="商品重量:">
-          <el-input
-            v-model="form.goodsWeight"
-            type="number"
-            placeholder="请输入商品重量"
-            style="width:250px"
-          ></el-input>kg
-          <br />用于送货上门计算跑腿费
-        </el-form-item>
+
       </el-form-item>
 
       <div style="font-size: 17px;margin: 20px 0;font-weight: bold;">2.商品设置</div>
-      <el-form-item label="物流:">
+      <!-- <el-form-item label="物流:">
         <el-checkbox-group v-model="form.isTake">
           <el-checkbox label="自提" value="1" name="isTake"></el-checkbox>
         </el-checkbox-group>
@@ -129,19 +108,19 @@
 
       <el-form-item label="技术参数:">
         <tinymce :height="450" v-model="form.technicalPars"></tinymce>上传1张图片商品信息，图片尺寸：1334x667px，图片大小不能超过800K。
-      </el-form-item>
+      </el-form-item>-->
 
       <el-form-item label="商品详情:">
         <tinymce :height="450" v-model="form.goodsDetail"></tinymce>只能上传6张图片，图片尺寸：1334x667px，图片大小不能超过800K。
       </el-form-item>
 
-      <div style="font-size: 17px;margin: 20px 0;font-weight: bold;">3.商品其它信息</div>
-      <el-form-item label="上架时间:">
+      <div style="font-size: 17px;margin: 20px 0;font-weight: bold;"><!-- 3.商品其它信息 --></div>
+     <!-- <el-form-item label="上架时间:">
         <el-radio-group v-model="form.upType">
           <el-radio label="0">立即上架</el-radio>
           <el-radio label="1">放入仓库</el-radio>
         </el-radio-group>
-      </el-form-item>
+      </el-form-item> -->
 
       <el-form-item v-if="isSave" label>
         <el-button plain @click="save" style="float:right;">保存</el-button>
@@ -359,35 +338,7 @@ export default {
         return;
       }
 
-      if (pars.goodsWeight == "") {
-        this.$message({
-          message: "请输入商品重量",
-          type: "warning"
-        });
-        return;
-      }
-
-      if (pars.address == "") {
-        this.$message({
-          message: "请输入自提地址",
-          type: "warning"
-        });
-        return;
-      }
-      if (pars.takeTime == "") {
-        this.$message({
-          message: "请输入营业时间",
-          type: "warning"
-        });
-        return;
-      }
-      if (pars.technicalPars == "") {
-        this.$message({
-          message: "请输入技术参数",
-          type: "warning"
-        });
-        return;
-      }
+   
       if (pars.goodsDetail == "") {
         this.$message({
           message: "请输入商品详情",
@@ -425,8 +376,7 @@ export default {
         }
       } else {
         this.form.goodsSpecifications[idx].img = res.data.path;
-        this.form.goodsSpecifications[idx].url =
-          res.data.server + res.data.path;
+        this.form.goodsSpecifications[idx].url = res.data.server + res.data.path;
         if (this.form.goodsSpecifications[idx].id) {
           this.form.goodsSpecifications[
             idx
@@ -489,7 +439,7 @@ export default {
 .row {
   width: 100%;
   border-bottom: 1px solid #ccc;
-  height: 200px;
+  height: 50px;
   padding-bottom: 10px;
   padding-top: 5px;
 }

@@ -1,1 +1,1 @@
-export const imgPath = '/youdu/file/upload'
+export const imgPath = '/file/upload'

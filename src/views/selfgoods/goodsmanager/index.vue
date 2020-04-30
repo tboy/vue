@@ -37,8 +37,13 @@
       </el-table-column>
       <el-table-column prop="createTime" label="创建时间" align="center">
       </el-table-column>
-      <el-table-column prop="goodsWeight" label="重量" align="center">
-      </el-table-column>
+    <el-table-column label="原价" align="center">
+      <template slot-scope="scope">
+        {{scope.row.specificationsList.length>0?scope.row.specificationsList[0].commission:0}}
+    
+      </template>
+    
+    </el-table-column>
       <el-table-column label="零售价" align="center">
         <template slot-scope="scope">
 
