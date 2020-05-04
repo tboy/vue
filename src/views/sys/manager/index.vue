@@ -20,46 +20,46 @@
       <!--</el-select>-->
 
       <!--<el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleFilter">{{$t('table.search')}}</el-button>-->
-      <el-button class="filter-item" type="primary" v-waves icon="el-icon-edit" @click="createDialog">{{$t('table.add')}}</el-button>
+      <el-button class="filter-item" type="primary" v-waves icon="el-icon-edit" @click="createDialog">添加</el-button>
     </div>
     <!-- 表格 -->
     <el-table :key='tableKey' :data="list" v-loading="listLoading" stripe border fit highlight-current-row
               style="width: 100%;min-height:100px;">
-      <el-table-column align="center" :label="$t('table.account')" width="150">
+      <el-table-column align="center" label="账号" width="150">
         <template slot-scope="scope">
           <span>{{scope.row.username}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column min-width="150px" align="center" :label="$t('table.employeeNumber')">
+      <el-table-column min-width="150px" align="center" label="员工编号">
         <template slot-scope="scope">
           <span>{{scope.row.username}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column min-width="150px" align="center" :label="$t('table.truename')">
+      <el-table-column min-width="150px" align="center" label="真实姓名">
         <template slot-scope="scope">
           <span>{{scope.row.truename}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column min-width="100px" align="center" :label="$t('table.status')">
+      <el-table-column min-width="100px" align="center" label="状态">
         <template slot-scope="scope">
           <el-tag>{{scope.row.disable | disableText}}</el-tag>
         </template>
       </el-table-column>
 
-      <el-table-column min-width="200px" align="center" :label="$t('system.rolename')">
+      <el-table-column min-width="200px" align="center" label="角色名">
         <template slot-scope="scope">
           <el-tag v-for="(item,index) in scope.row.roles" v-bind:key="index">{{item.name}}</el-tag>
         </template>
       </el-table-column>
 
-      <el-table-column min-width="200px" align="center" :label="$t('table.actions')">
+      <el-table-column min-width="200px" align="center" label="操作">
           <template slot-scope="scope">
             <el-tag v-if="scope.row.leave">已离职</el-tag>
-            <el-button v-if="!scope.row.leave" type="primary" size="mini" @click="updateDialog(scope.row)">{{$t('table.edit')}}</el-button>
-            <el-button v-if="!scope.row.leave" type="danger" size="mini" @click="handleLeaveoffice(scope.row)">{{$t('system.leaveoffice')}}</el-button>
+            <el-button v-if="!scope.row.leave" type="primary" size="mini" @click="updateDialog(scope.row)">编辑</el-button>
+            <el-button v-if="!scope.row.leave" type="danger" size="mini" @click="handleLeaveoffice(scope.row)">离职</el-button>
           </template>
       </el-table-column>
     </el-table>
@@ -74,21 +74,21 @@
     <!-- 增/改弹窗 -->
     <el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible">
       <el-form :rules="valids" ref="dataForm" label-position="left" :model="form" label-width="80px" style='width: 400px; margin-left:50px;'>
-        <el-form-item :label="$t('table.username')" prop="username">
+        <el-form-item label="用户名" prop="username">
           <el-input type="text" :rows="2" placeholder="请输入用户名" v-model="form.username"></el-input>
         </el-form-item>
 
-        <el-form-item :label="$t('table.truename')" prop="truename">
+        <el-form-item label="真实姓名" prop="truename">
           <el-input type="text" :rows="2" placeholder="请输入真实姓名" v-model="form.truename"></el-input>
         </el-form-item>
 
-        <el-form-item :label="$t('table.status')">
+        <el-form-item label="状态">
           <el-radio-group v-model="form.disable">
             <el-radio label="false">启用</el-radio>
             <el-radio label="true">禁用</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item :label="$t('system.role')" prop="menuRoleId">
+        <el-form-item label="角色" prop="menuRoleId">
           <el-select v-model="form.menuRoleId" placeholder="请选择">
             <el-option
               v-for="item in roles"
@@ -100,9 +100,9 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">{{$t('table.cancel')}}</el-button>
-        <el-button v-if='dialogStatus==="create"' type="primary" @click="handleCreateData" :loading="btnLoading">{{$t('table.confirm')}}</el-button>
-        <el-button v-else type="primary" @click="handleUpdateData" :loading="btnLoading">{{$t('table.confirm')}}</el-button>
+        <el-button @click="dialogFormVisible = false">取消</el-button>
+        <el-button v-if='dialogStatus==="create"' type="primary" @click="handleCreateData" :loading="btnLoading">确定</el-button>
+        <el-button v-else type="primary" @click="handleUpdateData" :loading="btnLoading">确定</el-button>
       </div>
     </el-dialog>
   </div>

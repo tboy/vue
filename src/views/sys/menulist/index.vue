@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
       <h3 class="menu-header">系统菜单
-        <el-button class="filter-item" style="margin-left: 50px;" @click="createDialog" type="primary" icon="el-icon-edit">{{$t('system.addMenuRoot')}}</el-button>
+        <el-button class="filter-item" style="margin-left: 50px;" @click="createDialog" type="primary" icon="el-icon-edit">添加顶级菜单</el-button>
       </h3>
       <el-tree
         :data="list"
@@ -20,27 +20,27 @@
     <!-- 增/改 -->
     <el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible">
       <el-form :rules="valids" ref="dataForm" :model="temp" label-position="left" label-width="70px" style='width: 400px; margin-left:50px;'>
-        <el-form-item :label="$t('system.path')" prop="path">
+        <el-form-item label="路径" prop="path">
           <el-input v-model="temp.path"></el-input>
         </el-form-item>
 
-        <el-form-item :label="$t('system.name')" prop="title">
+        <el-form-item label="名称" prop="title">
           <el-input v-model="temp.title"></el-input>
         </el-form-item>
 
-        <el-form-item :label="$t('system.sort')">
+        <el-form-item label="排序">
           <el-input v-model="temp.sequence"></el-input>
         </el-form-item>
 
-        <el-form-item :label="$t('system.redirect')">
+        <el-form-item label="重定向">
           <el-input v-model="temp.redirect"></el-input>
         </el-form-item>
 
-        <el-form-item :label="$t('system.icon')">
+        <el-form-item label="图标">
           <el-input v-model="temp.icon"></el-input>
         </el-form-item>
 
-        <el-form-item :label="$t('system.parent')" prop="parent" v-if="checkItemId">
+        <el-form-item label="父级" prop="parent" v-if="checkItemId">
           <el-select class="filter-item" :disabled="disabled" v-model="temp.parent" placeholder="请选择">
             <el-option v-for="item in  menus" :key="item.key" :label="item.display_name" :value="item.key">
             </el-option>
