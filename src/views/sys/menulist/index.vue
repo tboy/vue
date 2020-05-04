@@ -147,8 +147,9 @@
           redirect: data.redirect,
           icon: data.icon,
           hidden:0,
-          alwaysShow:0,
-          
+          alwaysshow:0,
+          nocache:1
+
         }
         this.dialogFormVisible = true
         this.dialogTitle = '更新菜单'
