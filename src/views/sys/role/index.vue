@@ -32,7 +32,7 @@
             :default-checked-keys="checkedKey"
             :expand-on-click-node="false">
             <span class='custom-tree-node' slot-scope="{ node, data}">
-              <span>{{ data.meta.title }}</span>
+              <span>{{ data.title }}</span>
             </span>
           </el-tree>
         </el-form-item>
@@ -115,6 +115,9 @@
       getMenuList(callback) {
         getMenusList().then(response => {
           const data = response.data
+          data.map((item)=>{
+            item.children = item.childList
+          })
           this.menuList = data
           callback && callback(data)
         })

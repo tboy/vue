@@ -8,7 +8,7 @@ export function getMenus() {
 }
 export function getMenusList() {
   return request({
-    url: '/rest/m/sys/menulist',
+    url: '/sys/getMenu',
     method: 'post'
   })
 }

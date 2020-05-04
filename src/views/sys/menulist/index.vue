@@ -9,7 +9,7 @@
         node-key="id"
         :expand-on-click-node="false">
          <span class='custom-tree-node' slot-scope="{ node, data}">
-            <span>{{ data.meta.title }}</span>
+            <span>{{ data.title }}</span>
             <span>
               <el-button v-if="data.parent === 0" size='mini' type='text' @click="() => createDialog(data.id)">增加下级菜单</el-button>
               <el-button size='mini' type='text' @click="() => updateDialog(data)">编辑</el-button>
@@ -48,9 +48,9 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">{{$t('table.cancel')}}</el-button>
-        <el-button v-if="dialogStatus=='create'" type="primary" @click="createData" :loading="btnLoading">{{$t('table.confirm')}}</el-button>
-        <el-button v-else type="primary" @click="updateData" :loading="btnLoading">{{$t('table.confirm')}}</el-button>
+        <el-button @click="dialogFormVisible = false">取消</el-button>
+        <el-button v-if="dialogStatus=='create'" type="primary" @click="createData" :loading="btnLoading">确定</el-button>
+        <el-button v-else type="primary" @click="updateData" :loading="btnLoading">确定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -111,6 +111,9 @@
       getList(callback) {
         this.listLoading = true
         getMenusList().then(response => {
+          response.data.map((item)=>{
+            item.children = item.childList
+          })
           this.list = response.data
           this.listLoading = false
           if (callback) callback(this.list)
@@ -138,11 +141,14 @@
         this.temp = {
           id: data.id,
           path: data.path,
-          title: data.meta.title,
+          title: data.title,
           parent: data.parent,
           sequence: data.sequence,
           redirect: data.redirect,
-          icon: data.meta.icon
+          icon: data.icon,
+          hidden:0,
+          alwaysShow:0,
+          
         }
         this.dialogFormVisible = true
         this.dialogTitle = '更新菜单'
