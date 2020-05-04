@@ -6,8 +6,7 @@
       <el-button class="filter-item" type="primary" v-waves icon="el-icon-edit" @click="addCategory">添加</el-button>
     </div>
     <!-- 表格 -->
-    <el-table :data="list" stripe border fit highlight-current-row
-              style="width: 100%;min-height:100px;" >
+    <el-table :data="list" stripe border fit highlight-current-row style="width: 100%;min-height:100px;">
       <el-table-column prop="list.name" label="经营大类" min-width="100px" align="center">
         <template slot-scope="scope">
           <span>{{scope.row.name}}</span>
@@ -21,11 +20,11 @@
       </el-table-column>
 
 
-      <el-table-column  label="操作" min-width="100px" align="center">
+      <el-table-column label="操作" min-width="100px" align="center">
         <template slot-scope="scope">
-          <p >
+          <p>
             <el-button type="primary" size="mini" @click="updatecategoryMargin(scope.row)">编辑</el-button>
-            <el-button type="danger" size="mini"  @click="deteleCategoryMargin(scope.row)">删除</el-button>
+            <el-button type="danger" size="mini" @click="deteleCategoryMargin(scope.row)">删除</el-button>
           </p>
         </template>
       </el-table-column>
@@ -33,22 +32,33 @@
 
     <!-- 增/改弹窗 -->
     <el-dialog :visible.sync="dialogFormVisible">
-      <el-form   ref="dataForm" label-position="center" label-width="150px" :model="form">
-        <span><h3>添加经营大类</h3></span>
+      <el-form ref="dataForm" label-position="center" label-width="150px" :model="form">
+        <span>
+          <h3>添加经营大类</h3>
+        </span>
         <el-input type="hidden" :rows="2" v-model="form.id"></el-input>
         <el-form-item label="经营大类" prop="name">
-          <el-input type="text" :rows="2"  v-model="form.name" placeholder="请输入经营大类"></el-input>
+          <el-input type="text" :rows="2" v-model="form.name" placeholder="请输入经营大类"></el-input>
         </el-form-item>
 
-        <span><h3>类目详情</h3></span>
+        <span>
+          <h3>类目详情</h3>
+        </span>
         <el-col v-for="(item,index) in form.categoryMarginList" v-bind:key="item.index">
           <el-form-item label="一级类目" prop="name">
-            <el-input type="text" :rows="2"  v-model="form.categoryMarginList[index].name" placeholder="请输入一级类目"></el-input>
+            <el-upload  :before-upload="selImg" :id="index" class="avatar-uploader"
+              :action="uploadPath" :show-file-list="false" :on-success="upload">
+              <img v-if="form.categoryMarginList[index].img" :src="form.categoryMarginList[index].imageServer+form.categoryMarginList[index].img" class="avatar" />
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
+            <el-input type="text" :rows="2" v-model="form.categoryMarginList[index].name" placeholder="请输入一级类目"></el-input>
+
+
           </el-form-item>
-          
+
         </el-col>
       </el-form>
-      <el-button  type="primary" @click="addCate">增加类目</el-button>
+      <el-button type="primary" @click="addCate">增加类目</el-button>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取消</el-button>
         <el-button type="primary" @click="add">确定</el-button>
@@ -60,13 +70,15 @@
 <script>
   import waves from '@/directive/waves' // 水波纹指令
   import supplier from '@/api/supplier'
-
+  import {imgPath} from '@/utils/imgUploadPath'
   export default {
     directives: {
       waves
     },
     data() {
       return {
+        imgIdx:0,
+         uploadPath: imgPath,
         list: [{
           id: null,
           name: null,
@@ -83,16 +95,14 @@
         form: {
           id: null,
           name: null,
-          categoryMarginList: [
-            {
-              id: null,
-              name: null,
-              tmallNub: null,
-              deduction: null,
-              commission: null,
-              margin: null
-            }
-          ]
+          categoryMarginList: [{
+            id: null,
+            name: null,
+            tmallNub: null,
+            deduction: null,
+            commission: null,
+            margin: null
+          }]
         }
       }
     },
@@ -101,6 +111,17 @@
       this.findAllCategoryMargin()
     },
     methods: {
+      selImg(val) {
+        this.imgIdx = event.target.parentElement.parentElement.getAttribute("id");
+
+      },
+      upload(res, file) {
+        this.form.categoryMarginList[this.imgIdx].img = res.data.path;
+        this.form.categoryMarginList[this.imgIdx].imageServer = res.data.server;
+
+
+
+      },
       findAllCategoryMargin() {
         supplier.findAllCategoryMargin().then(response => {
           this.list = response.data
@@ -113,16 +134,14 @@
         this.form = {
           id: null,
           name: null,
-          categoryMarginList: [
-            {
-              id: null,
-              name: null,
-              tmallNub: null,
-              deduction: null,
-              commission: null,
-              margin: null
-            }
-          ]
+          categoryMarginList: [{
+            id: null,
+            name: null,
+            tmallNub: null,
+            deduction: null,
+            commission: null,
+            margin: null
+          }]
         }
         this.dialogFormVisible = true
         this.$nextTick(() => {
@@ -207,6 +226,36 @@
 
 
 <style scoped>
+
+  .avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    float: left;
+    margin-right: 20px;
+    width: 178px !important;
+  }
+
+  .avatar-uploader .el-upload:hover {
+    border-color: #409eff;
+  }
+
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+  }
+
+  .avatar {
+    width: 178px !important;
+    height: 178px;
+    display: block;
+  }
   .file-page {
     position: absolute;
     top: 0;

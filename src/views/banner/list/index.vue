@@ -4,10 +4,7 @@
     <!-- 表格头部操作 -->
     <div class="filter-container">
 
-        <el-select class="filter-item" v-model="listQuery.object" placeholder="请选择">
-          <el-option v-for="item in  objs" :key="item.key" :label="item.display_name" :value="item.key">
-          </el-option>
-        </el-select>
+       
 
       <el-date-picker
         class="filter-item filter-date"
@@ -28,17 +25,6 @@
     <!-- 表格 -->
     <el-table :key='tableKey' :data="list" v-loading="listLoading" stripe border fit highlight-current-row
               style="width: 100%;min-height:100px;">
-      <el-table-column align="center" label="banner类型" min-width="100px">
-        <template slot-scope="scope">
-          <span>{{scope.row.object|objFilter}}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column align="center" label="类型" min-width="150px">
-        <template slot-scope="scope">
-          <span>{{scope.row.type|typeFilter}}</span>
-        </template>
-      </el-table-column>
 
       <el-table-column align="center" label="排序" min-width="150px">
         <template slot-scope="scope">
@@ -49,12 +35,6 @@
       <el-table-column align="center" label="图片路径" min-width="150px">
         <template slot-scope="scope">
             <img :src="scope.row.imgServer+scope.row.banner" class="xszImg" style="width:100px;height:50px;">
-        </template>
-      </el-table-column>
-
-      <el-table-column align="center" label="跳转路径" min-width="150px">
-        <template slot-scope="scope">
-          <span>{{scope.row.action}}</span>
         </template>
       </el-table-column>
 
@@ -86,12 +66,7 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item label="类型" prop="type">
-          <el-select class="filter-item" v-model="form.type" placeholder="请选择">
-            <el-option v-for="item in  typeOptions" :key="item.key" :label="item.display_name" :value="item.key">
-            </el-option>
-          </el-select>
-        </el-form-item>
+       
 
         <el-form-item label="排序" prop="sort">
           <el-input type="text" :rows="2"  class="input-name" v-model="form.sort"></el-input>
@@ -114,13 +89,7 @@
           </el-upload>
         </el-form-item>
 
-        <el-form-item label="跳转路径" prop="action">
-          <el-input type="text" :rows="2"  class="input-name" v-model="form.action"></el-input>
-        </el-form-item>
-        <el-form-item label="数据" prop="data">
-          <el-input type="text" :rows="2"  class="input-name" v-model="form.data"></el-input>
-        </el-form-item>
-
+       
         </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取消</el-button>
@@ -211,7 +180,7 @@
       }
     },
     created() {
-   
+
       this.getList()
     },
     methods: {

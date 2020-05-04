@@ -247,6 +247,7 @@ export default {
   },
   methods: {
     initView(item) {
+      this.form.name = item.name;
       this.form = item;
       this.form.isLeg = item.isLeg == 1;
       this.form.isTake = item.isTake == 1;
