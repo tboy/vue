@@ -3,7 +3,7 @@
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
 
       <div class="title-container">
-        <h3 class="title">白市</h3>
+        <h3 class="title">水果市场</h3>
       </div>
 
       <el-form-item prop="username">
@@ -132,15 +132,13 @@ export default {
           this.loading = true
           this.$store.dispatch('user/login', this.loginForm)
             .then((res) => {
-
-             if(this.$store.getters.permission_routes.length<5){
-               this.getMenu()
-             }else{
-               let myPath = this.$store.getters.permission_routes[5].path+"/index"
-               this.$router.push({ path: myPath, query: {} })
-               this.loading = false
-             }
-
+              if (this.$store.getters.permission_routes.length < 5) {
+                this.getMenu()
+              } else {
+                const myPath = this.$store.getters.permission_routes[5].path + '/index'
+                this.$router.push({ path: myPath, query: {}})
+                this.loading = false
+              }
             })
             .catch(() => {
               this.loading = false
@@ -152,10 +150,10 @@ export default {
       })
     },
     async getMenu() {
-       const accessRoutes = await this.$store.dispatch('permission/generateRoutes', ['admin'])
-       let myPath = this.$store.getters.permission_routes[5].path+"/index"
-       this.$router.push({ path: myPath, query: {} })
-       this.loading = false
+      await this.$store.dispatch('permission/generateRoutes', ['admin'])
+      const myPath = this.$store.getters.permission_routes[5].path + '/index'
+      this.$router.push({ path: myPath, query: {}})
+      this.loading = false
     },
     getOtherQuery(query) {
       return Object.keys(query).reduce((acc, cur) => {
