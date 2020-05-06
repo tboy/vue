@@ -6,3 +6,17 @@ export function getAdminMenu() {
     method: 'post'
   })
 }
+export function getUserList(data) {
+  return request({
+    url: '/sys/getUserList',
+    method: 'post',
+    data
+  })
+}
+export function addUserRole(data) {
+  return request({
+    url: '/sys/addUserRole',
+    method: 'post',
+    data
+  })
+}

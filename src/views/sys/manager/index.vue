@@ -2,25 +2,7 @@
   <div class="app-container">
     <!-- 表格头部操作 -->
     <div class="filter-container">
-      <!--<el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" :placeholder="$t('table.account')" v-model="listQuery.username">-->
-      <!--</el-input>-->
 
-      <!--<el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" :placeholder="$t('table.employeeNumber')" v-model="listQuery.truename">-->
-      <!--</el-input>-->
-
-      <!--<el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" :placeholder="$t('table.truename')" v-model="listQuery.username">-->
-      <!--</el-input>-->
-
-      <!--<el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" :placeholder="$t('system.rolename')" v-model="listQuery.truename">-->
-      <!--</el-input>-->
-
-      <!--<el-select @change='handleFilter' clearable class="filter-item" style="width: 130px" v-model="listQuery.xszPass" :placeholder="$t('table.status')">-->
-        <!--<el-option v-for="item in disableType" :key="item.key" :label="item.display_name" :value="item.key">-->
-        <!--</el-option>-->
-      <!--</el-select>-->
-
-      <!--<el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleFilter">{{$t('table.search')}}</el-button>-->
-      <el-button class="filter-item" type="primary" v-waves icon="el-icon-edit" @click="createDialog">添加</el-button>
     </div>
     <!-- 表格 -->
     <el-table :key='tableKey' :data="list" v-loading="listLoading" stripe border fit highlight-current-row
@@ -43,15 +25,15 @@
         </template>
       </el-table-column>
 
-      <el-table-column min-width="100px" align="center" label="状态">
+     <!-- <el-table-column min-width="100px" align="center" label="状态">
         <template slot-scope="scope">
           <el-tag>{{scope.row.disable | disableText}}</el-tag>
         </template>
-      </el-table-column>
+      </el-table-column> -->
 
       <el-table-column min-width="200px" align="center" label="角色名">
         <template slot-scope="scope">
-          <el-tag v-for="(item,index) in scope.row.roles" v-bind:key="index">{{item.name}}</el-tag>
+          <el-tag v-for="(item,index) in scope.row.roleList" v-bind:key="index">{{item.role?item.role.name:''}}</el-tag>
         </template>
       </el-table-column>
 
@@ -59,35 +41,37 @@
           <template slot-scope="scope">
             <el-tag v-if="scope.row.leave">已离职</el-tag>
             <el-button v-if="!scope.row.leave" type="primary" size="mini" @click="updateDialog(scope.row)">编辑</el-button>
-            <el-button v-if="!scope.row.leave" type="danger" size="mini" @click="handleLeaveoffice(scope.row)">离职</el-button>
+          <!--  <el-button v-if="!scope.row.leave" type="danger" size="mini" @click="handleLeaveoffice(scope.row)">离职</el-button> -->
           </template>
       </el-table-column>
     </el-table>
 
 
     <!-- 分页 -->
-    <!--<div class="pagination-container">-->
-      <!--<el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="listQuery.currentPage" :page-sizes="[10,20,30, 50]" :page-size="listQuery.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total">-->
-      <!--</el-pagination>-->
-    <!--</div>-->
+    <div class="pagination-container">
+      <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="listQuery.currentPage" :page-sizes="[10,20,30, 50]" :page-size="listQuery.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total">
+      </el-pagination>
+    </div>
 
     <!-- 增/改弹窗 -->
     <el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible">
       <el-form :rules="valids" ref="dataForm" label-position="left" :model="form" label-width="80px" style='width: 400px; margin-left:50px;'>
         <el-form-item label="用户名" prop="username">
-          <el-input type="text" :rows="2" placeholder="请输入用户名" v-model="form.username"></el-input>
+          <!-- <el-input type="text" :rows="2" placeholder="请输入用户名" v-model="form.username"></el-input> -->
+          {{form.username}}
         </el-form-item>
 
         <el-form-item label="真实姓名" prop="truename">
-          <el-input type="text" :rows="2" placeholder="请输入真实姓名" v-model="form.truename"></el-input>
+         <!-- <el-input type="text" :rows="2" placeholder="请输入真实姓名" v-model="form.truename"></el-input> -->
+         {{form.nickname}}
         </el-form-item>
 
-        <el-form-item label="状态">
+       <!-- <el-form-item label="状态">
           <el-radio-group v-model="form.disable">
             <el-radio label="false">启用</el-radio>
             <el-radio label="true">禁用</el-radio>
           </el-radio-group>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="角色" prop="menuRoleId">
           <el-select v-model="form.menuRoleId" placeholder="请选择">
             <el-option
@@ -112,7 +96,7 @@
   import waves from '@/directive/waves' // 水波纹指令
   import { parseTime } from '@/utils'
   import roleData from '@/api/role'
-  import peruserData from '@/api/peruser'
+  import {getUserList,addUserRole} from '@/api/sys'
   const disableType = [
     { key: 'false', display_name: '启用' },
     { key: 'true', display_name: '禁用' }
@@ -181,7 +165,8 @@
     methods: {
       getList() {
         this.listLoading = true
-        peruserData.getPeruserList().then(response => {
+           
+        getUserList(this.listQuery).then(response => {
           this.list = response.data
           this.listLoading = false
         })
@@ -196,15 +181,15 @@
         })
       },
       handleFilter() {
-        this.listQuery.page = 1
+        this.listQuery.currentPage = 1
         this.getList()
       },
       handleSizeChange(val) {
-        this.listQuery.limit = val
+        this.listQuery.pageSize = val
         this.getList()
       },
       handleCurrentChange(val) {
-        this.listQuery.page = val
+        this.listQuery.currentPage = val
         this.getList()
       },
       handleModifyStatus(row, status) {
@@ -282,7 +267,10 @@
           if (valid) {
             this.btnLoading = true
             console.log(this.form)
-            peruserData.updatePeruser(this.form).then((res) => {
+            var pars = {};
+            pars.userId = this.form.id;
+            pars.roleId = this.form.menuRoleId;
+            addUserRole(pars).then((res) => {
               this.dialogFormVisible = false
               this.btnLoading = false
               this.$notify({

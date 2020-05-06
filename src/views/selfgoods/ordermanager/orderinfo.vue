@@ -27,16 +27,7 @@
         <div>联系方式:{{item.tblReceiveAddress?item.tblReceiveAddress.phoneNumber:''}}</div>
         <div>收货地址:{{item.tblReceiveAddress?item.tblReceiveAddress.detailAddress:''}}</div>
       </div>
-      <div class="col" v-if="!shop">
-        <div class="titl">卖家信息</div>
-        <div>店铺名称:{{item.tblShopVo?item.tblShopVo.name:''}}</div>
-        <div>ID号:{{item.tblShopVo?item.tblShopVo.usersVo.youduNum:''}}</div>
-        <div>联系人:{{item.tblShopVo?item.tblShopVo.contacts:''}}</div>
-        <div>联系电话:{{item.tblShopVo?item.tblShopVo.phone:''}}</div>
-        <div>联系地址:{{item.tblShopVo?item.tblShopVo.address:''}}</div>
-        <div>邮箱:{{item.tblShopVo?(item.tblShopVo.type==0?item.tblShopVo.enterprise.email:item.tblShopVo.supplier.mailbox):''}}</div>
-
-      </div>
+     
       <div style="
     width: 50%;
     height: 20rem;
