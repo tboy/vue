@@ -7,21 +7,16 @@
     <!-- 表格 -->
     <el-table :key='tableKey' :data="list" v-loading="listLoading" stripe border fit highlight-current-row
               style="width: 100%;min-height:100px;">
-      <el-table-column align="center" label="账号" width="150">
+     
+      <el-table-column min-width="150px" align="center" label="用户名">
         <template slot-scope="scope">
-          <span>{{scope.row.username}}</span>
+          <span>{{scope.row.nickname}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column min-width="150px" align="center" label="员工编号">
+      <el-table-column min-width="150px" align="center" label="手机号">
         <template slot-scope="scope">
           <span>{{scope.row.username}}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column min-width="150px" align="center" label="真实姓名">
-        <template slot-scope="scope">
-          <span>{{scope.row.truename}}</span>
         </template>
       </el-table-column>
 
@@ -56,14 +51,14 @@
     <!-- 增/改弹窗 -->
     <el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible">
       <el-form :rules="valids" ref="dataForm" label-position="left" :model="form" label-width="80px" style='width: 400px; margin-left:50px;'>
-        <el-form-item label="用户名" prop="username">
+        <el-form-item label="用户名" >
           <!-- <el-input type="text" :rows="2" placeholder="请输入用户名" v-model="form.username"></el-input> -->
-          {{form.username}}
+          {{form.nickname}}
         </el-form-item>
 
-        <el-form-item label="真实姓名" prop="truename">
+        <el-form-item label="用户名" >
          <!-- <el-input type="text" :rows="2" placeholder="请输入真实姓名" v-model="form.truename"></el-input> -->
-         {{form.nickname}}
+         {{form.username}}
         </el-form-item>
 
        <!-- <el-form-item label="状态">
@@ -139,9 +134,7 @@
         dialogStatus: 'create',
         downloadLoading: false,
         valids: {
-          username: [{ required: true, message: '用户名是必须的' }],
-          truename: [{ required: true, message: '请输入真实姓名' }],
-          menuRoleId: [{ required: true, message: '请选择用户角色', trigger: 'change' }]
+
         }
       }
     },
@@ -165,7 +158,7 @@
     methods: {
       getList() {
         this.listLoading = true
-           
+
         getUserList(this.listQuery).then(response => {
           this.list = response.data
           this.listLoading = false
@@ -263,8 +256,8 @@
         })
       },
       handleUpdateData() {
-        this.$refs['dataForm'].validate((valid) => {
-          if (valid) {
+
+
             this.btnLoading = true
             console.log(this.form)
             var pars = {};
@@ -281,8 +274,8 @@
               })
               this.getList()
             })
-          }
-        })
+
+
       },
       resetForm() {
         this.form = {
