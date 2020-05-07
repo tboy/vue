@@ -1,12 +1,7 @@
 <template>
   <div class="container">
-    <el-form
-      style="width:80%;margin:auto;"
-      label-position="left"
-      ref="form"
-      :model="form"
-      label-width="120px"
-    >
+
+    <el-form style="width:80%;margin:auto;" label-position="left" ref="form" :model="form" label-width="120px">
       <div style="font-size: 17px;margin: 20px 0;font-weight: bold;">1.商品基本信息</div>
       <el-form-item label="商品分类:">
         <el-select v-model="form.categoryId1" @change="changeCategory" placeholder="请选择">
@@ -18,24 +13,23 @@
       </el-form-item>
       <el-form-item label="商品名称:">
         <el-input v-model="form.name" placeholder="请输入内容" maxlength="20" show-word-limit></el-input>
+
       </el-form-item>
       <el-form-item label="商品副标题:">
         <el-input v-model="form.subName" placeholder="请输入内容" maxlength="40" show-word-limit></el-input>
       </el-form-item>
       <el-form-item label="商品图片:">
         <div style="width:100%;height: 192px;">
-          <el-upload
-            v-for="(item,idx) in form.goodsImgs"
-            :before-upload="selImg"
-            :id="idx"
-            class="avatar-uploader"
-            :action="uploadPath"
-            :show-file-list="false"
-            :on-success="upload"
-          >
-            <img v-if="item.url" :src="item.url" class="avatar" />
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-          </el-upload>
+          <div v-for="(item,idx) in form.goodsImgs"  style="width:178px;float:left;margin-right:20px;">
+            <i v-if="item.url" class="el-icon-close" @click="delImg()" :id="idx" style="margin-left:174px;height: 13px;width: 13px;color: white;background: #1890ff;cursor:pointer;border-radius: 100%;position: absolute;top:-10px;"></i>
+            <el-upload :before-upload="selImg" :id="idx" class="avatar-uploader" :action="uploadPath" :show-file-list="false"
+              :on-success="upload">
+              <div v-if="item.url">
+                <img :src="item.url" class="avatar" />
+              </div>
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
+          </div>
         </div>
         <div style="width:100%;">商品图片尺寸：698*298px，主图大小不能超过800K；</div>
       </el-form-item>
@@ -45,49 +39,23 @@
         <div class="row" v-for="(item,idx) in form.goodsSpecifications">
           <div>
             名称：
-            <el-input
-              type="text"
-              v-model="item.name"
-              placeholder="请输入名称"
-              style="width:130px;float:right;"
-            ></el-input>
+            <el-input type="text" v-model="item.name" placeholder="请输入名称" style="width:130px;float:right;"></el-input>
           </div>
           <div>
             零售价：
-            <el-input
-              type="number"
-              v-model="item.retailPrice"
-              placeholder="请输入零售价"
-              style="width:110px;float:right;"
-            ></el-input>
+            <el-input type="number" v-model="item.retailPrice" placeholder="请输入零售价" style="width:110px;float:right;"></el-input>
           </div>
           <div>
             原价：
-            <el-input
-              type="number"
-              v-model="item.commission"
-              placeholder="请输入原价"
-              style="width:110px;float:right;"
-            ></el-input>
+            <el-input type="number" v-model="item.commission" placeholder="请输入原价" style="width:110px;float:right;"></el-input>
           </div>
           <div>
             库存：
-            <el-input
-              type="number"
-              v-model="item.inventory"
-              placeholder="请输入库存"
-              style="width:130px;float:right;"
-            ></el-input>
+            <el-input type="number" v-model="item.inventory" placeholder="请输入库存" style="width:130px;float:right;"></el-input>
           </div>
-   <el-upload
-            :before-upload="selImg"
-            :id="'s_'+idx"
-            class="avatar-uploader"
-            style="width:178px;"
-            :action="uploadPath"
-            :show-file-list="false"
-            :on-success="upload"
-          >
+          <el-upload :before-upload="selImg" :id="'s_'+idx" class="avatar-uploader" style="width:178px;" :action="uploadPath"
+            :show-file-list="false" :on-success="upload">
+
             <img v-if="item.url" :src="item.url" class="avatar" />
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
@@ -125,8 +93,10 @@
         <tinymce :height="450" v-model="form.goodsDetail"></tinymce>只能上传6张图片，图片尺寸：1334x667px，图片大小不能超过800K。
       </el-form-item>
 
-      <div style="font-size: 17px;margin: 20px 0;font-weight: bold;"><!-- 3.商品其它信息 --></div>
-     <!-- <el-form-item label="上架时间:">
+      <div style="font-size: 17px;margin: 20px 0;font-weight: bold;">
+        <!-- 3.商品其它信息 -->
+      </div>
+      <!-- <el-form-item label="上架时间:">
         <el-radio-group v-model="form.upType">
           <el-radio label="0">立即上架</el-radio>
           <el-radio label="1">放入仓库</el-radio>
@@ -153,14 +123,7 @@
     </el-form>
 
     <el-dialog title="拒绝原因" :visible.sync="isShow2" width="30%" center :modal="false">
-      <el-input
-        type="textarea"
-        placeholder="请输入拒绝原因"
-        v-model="reasonTxt"
-        rows="10"
-        maxlength="500"
-        show-word-limit
-      ></el-input>
+      <el-input type="textarea" placeholder="请输入拒绝原因" v-model="reasonTxt" rows="10" maxlength="500" show-word-limit></el-input>
       <span slot="footer" class="dialog-footer">
         <el-button @click="isShow2 = false">取 消</el-button>
         <el-button type="primary" @click="audit(2)">确 定</el-button>
@@ -170,326 +133,353 @@
 </template>
 
 <script>
-import Tinymce from "@/components/Tinymce";
-import {
-  findAllCategoryMargin,
-  addGoods,
-  auditGoods,
-  delSpecification
-} from "@/api/categorymargin.js";
-  import {imgPath} from '@/utils/imgUploadPath'
-export default {
-  name: "Edit",
-  components: {
-    Tinymce
-  },
-  props: {
-    callback: Function
-  },
-  data() {
-    return {
-      isSave: true,
-      init: false,
-      isAudit: false,
-      isShow2: false,
-      reasonTxt: "",
-      uploadPath: imgPath,
-      category1: [],
-      category2: [],
-      imgIdx: null,
-      form: {
-        shopId: null,
-        categoryId1: null,
-        categoryId: null,
-        name: "",
-        subName: "",
-        goodsImgs: [],
-        isSales: 0,
-        goodsSpecifications: [],
-        goodsWeight: "",
-        isTake: 0,
-        address: "",
-        takeTime: "",
-        isPostage: 1,
-        isLeg: 0,
-        technicalPars: "",
-        goodsDetail: "",
-        upType: null
+  import Tinymce from "@/components/Tinymce";
+  import {
+    findAllCategoryMargin,
+    addGoods,
+    auditGoods,
+    delSpecification
+  } from "@/api/categorymargin.js";
+  import {
+    imgPath
+  } from '@/utils/imgUploadPath'
+  export default {
+    name: "Edit",
+    components: {
+      Tinymce
+    },
+    props: {
+      callback: Function
+    },
+    data() {
+      return {
+
+        time:null,
+        isSave: true,
+        init: false,
+        isAudit: false,
+        isShow2: false,
+        reasonTxt: "",
+        uploadPath: imgPath,
+        category1: [],
+        category2: [],
+        imgIdx: null,
+        form: {
+          avac: '',
+          shopId: null,
+          categoryId1: null,
+          categoryId: null,
+          name: "",
+          subName: "",
+          goodsImgs: [],
+          isSales: 0,
+          goodsSpecifications: [],
+          goodsWeight: "",
+          isTake: 0,
+          address: "",
+          takeTime: "",
+          isPostage: 1,
+          isLeg: 0,
+          technicalPars: "",
+          goodsDetail: "",
+          upType: null
+        }
+      };
+    },
+    mounted() {
+      let goodsImgs = [];
+      for (let i = 0; i < 5; i++) {
+        let item = {};
+        item.url = null;
+        item.path = "";
+        goodsImgs.push(item);
       }
-    };
-  },
-  mounted() {
-    let goodsImgs = [];
-    for (let i = 0; i < 5; i++) {
-      let item = {};
-      item.url = null;
-      item.path = "";
-      goodsImgs.push(item);
-    }
-    this.form.goodsImgs = goodsImgs;
-    this.form.goodsSpecifications = [
-      {
+      this.form.goodsImgs = goodsImgs;
+      this.form.goodsSpecifications = [{
         name: "",
         retailPrice: "",
         commission: "",
         inventory: "",
         img: null,
         url: null
-      }
-    ];
-    findAllCategoryMargin().then(res => {
-      this.category1 = res.data;
-      if (!this.init) {
-        this.form.categoryId1 = res.data[0].id;
-        this.changeCategory();
-      }
-    });
-  },
-  methods: {
-    initView(item) {
-      this.form.name = item.name;
-      this.form = item;
-      this.form.isLeg = item.isLeg == 1;
-      this.form.isTake = item.isTake == 1;
-      this.form.isSales = item.isSales == 1;
-      this.form.goodsImgs = item.goodsPicList;
-      this.form.goodsImgs.map(item => {
-        item.url = item.imgServer + item.fileaddr;
+      }];
+      findAllCategoryMargin().then(res => {
+        this.category1 = res.data;
+        if (!this.init) {
+          this.form.categoryId1 = res.data[0].id;
+          this.changeCategory();
+        }
       });
-      this.form.goodsSpecifications = item.specificationsList;
-      this.form.goodsSpecifications.map(item => {
-        item.url = item.imgServer + item.img;
-      });
-      this.form.categoryId = parseInt(item.categoryMarginVo.id);
-      this.form.categoryId1 = parseInt(item.categoryMarginVo.categoryMargin.id);
+    },
+    methods: {
+      initView(item) {
+        item = JSON.parse(JSON.stringify(item));
+        this.form.name = item.name;
+        this.form = item;
+        this.form.isLeg = item.isLeg == 1;
+        this.form.isTake = item.isTake == 1;
+        this.form.isSales = item.isSales == 1;
+        this.form.goodsImgs = [];
+        for (var i = 0; i < 5; i++) {
+          var temp = item.goodsPicList[i]
+          if (temp) {
+            temp.url = temp.imgServer + temp.fileaddr;
 
-      this.update();
-    },
-    setEdit(item) {
-      this.isSave = true;
-      this.isAudit = false;
-      this.isShow2 = false;
-      this.init = false;
-      this.initView(item);
-    },
-    show(item) {
-      this.isSave = false;
-      this.isAudit = false;
-      this.isShow2 = false;
-      this.init = true;
-      this.initView(item);
-    },
-    setAudit(item) {
-      this.init = true;
-      this.isSave = false;
-      this.isAudit = true;
-      this.isShow2 = false;
-      this.initView(item);
-    },
-    audit(status) {
-      let pars = {};
-      pars.id = this.form.id;
-      pars.status = status;
-      pars.reason = this.reasonTxt;
-      auditGoods(pars).then(res => {
-        this.$message({
-          message: res.msg,
-          type: "success"
-        });
-        this.$props.callback();
-      });
-    },
-    save() {
-      let pars = this.form;
-      if (pars.name == "") {
-        this.$message({
-          message: "请输入商品名称",
-          type: "warning"
-        });
-        return;
-      }
-      if (pars.subName == "") {
-        this.$message({
-          message: "请输入商品副标题",
-          type: "warning"
-        });
-        return;
-      }
-      let isNull = false;
-      pars.goodsImgs.map(item => {
-        if (item.url == null) {
-          isNull = true;
+          } else {
+            temp = {
+              url: null,
+              fileaddr: null
+            };
+          }
+          this.form.goodsImgs[i] = temp;
         }
-      });
-      if (isNull) {
-        this.$message({
-          message: "请上传5张商品图片",
-          type: "warning"
+        this.form.goodsImgs.sort();
+        this.form.goodsSpecifications = item.specificationsList;
+        this.form.goodsSpecifications.map(item => {
+          item.url = item.imgServer + item.img;
         });
-        return;
-      }
-      isNull = false;
-      pars.goodsSpecifications.map(item => {
-        if (item.name == "" || item.retailPrice == "" || item.inventory == "") {
-          isNull = true;
+        this.form.categoryId = parseInt(item.categoryMarginVo.id);
+        this.form.categoryId1 = parseInt(item.categoryMarginVo.categoryMargin.id);
+
+        this.update();
+      },
+      setEdit(item) {
+        this.isSave = true;
+        this.isAudit = false;
+        this.isShow2 = false;
+        this.init = false;
+        this.initView(item);
+      },
+      show(item) {
+        this.isSave = false;
+        this.isAudit = false;
+        this.isShow2 = false;
+        this.init = true;
+        this.initView(item);
+      },
+      setAudit(item) {
+        this.init = true;
+        this.isSave = false;
+        this.isAudit = true;
+        this.isShow2 = false;
+        this.initView(item);
+      },
+      audit(status) {
+        let pars = {};
+        pars.id = this.form.id;
+        pars.status = status;
+        pars.reason = this.reasonTxt;
+        auditGoods(pars).then(res => {
+          this.$message({
+            message: res.msg,
+            type: "success"
+          });
+          this.$props.callback();
+        });
+      },
+      save() {
+
+        let pars = JSON.parse(JSON.stringify(this.form));
+        if (pars.name == "") {
+          this.$message({
+            message: "请输入商品名称",
+            type: "warning"
+          });
+          return;
         }
-        if (pars.isSales) {
-          pars.isSales = 1;
-          if (item.commission == "") {
+        if (pars.subName == "") {
+          this.$message({
+            message: "请输入商品副标题",
+            type: "warning"
+          });
+          return;
+        }
+        let isNull = 0;
+        var arr = [];
+        pars.goodsImgs.map(item => {
+          if (item.updateId == null && item.url == null) {
+
+          } else {
+            arr.push(item);
+          }
+        });
+        pars.goodsImgs = arr;
+        if (arr.length == 0) {
+          this.$message({
+            message: "请上传商品图片",
+            type: "warning"
+          });
+          return;
+        }
+
+        isNull = false;
+        pars.goodsSpecifications.map(item => {
+          if (item.name == "" || item.retailPrice == "" || item.inventory == "") {
             isNull = true;
           }
-        } else {
-          pars.isSales = 0;
+          if (pars.isSales) {
+            pars.isSales = 1;
+            if (item.commission == "") {
+              isNull = true;
+            }
+          } else {
+            pars.isSales = 0;
+          }
+        });
+        if (isNull) {
+          this.$message({
+            message: "请填写完整规格",
+            type: "warning"
+          });
+          return;
         }
-      });
-      if (isNull) {
-        this.$message({
-          message: "请填写完整规格",
-          type: "warning"
-        });
-        return;
-      }
 
 
-      if (pars.goodsDetail == "") {
-        this.$message({
-          message: "请输入商品详情",
-          type: "warning"
-        });
-        return;
-      }
-      pars.isLeg = pars.isLeg ? 1 : 0;
-      pars.isTake = pars.isTake ? 1 : 0;
-
-      pars.goodsPicList = this.form.goodsImgs;
-      pars.specificationsList = this.form.goodsSpecifications;
-      addGoods(pars).then(res => {
-        this.$message({
-          message: res.msg,
-          type: "success"
-        });
-        this.$props.callback();
-      });
-    },
-    selImg(val) {
-      this.imgIdx = event.target.parentElement.parentElement.getAttribute("id");
-      this.update();
-    },
-    upload(res, file) {
-      debugger
-      let idx =
-        this.imgIdx.indexOf("s") != -1
-          ? parseInt(this.imgIdx.split("_")[1])
-          : parseInt(this.imgIdx);
-      if (this.imgIdx.indexOf("s") == -1) {
-        this.form.goodsImgs[idx].fileaddr = res.data.path;
-        this.form.goodsImgs[idx].url = res.data.server + res.data.path;
-        if (this.form.goodsImgs[idx].id) {
-          this.form.goodsImgs[idx].updateId = this.form.goodsImgs[idx].id;
+        if (pars.goodsDetail == "") {
+          this.$message({
+            message: "请输入商品详情",
+            type: "warning"
+          });
+          return;
         }
-      } else {
-        this.form.goodsSpecifications[idx].img = res.data.path;
-        this.form.goodsSpecifications[idx].url = res.data.server + res.data.path;
-        if (this.form.goodsSpecifications[idx].id) {
-          this.form.goodsSpecifications[
-            idx
-          ].updateId = this.form.goodsSpecifications[idx].id;
-        }
-      }
+        pars.isLeg = pars.isLeg ? 1 : 0;
+        pars.isTake = pars.isTake ? 1 : 0;
 
-      this.update();
-    },
-    delRow(idx) {
-      if (this.form.goodsSpecifications.length == 1) {
-        this.$message({
-          message: "规格不能为空",
-          type: "warning"
+        pars.goodsPicList = pars.goodsImgs;
+        pars.specificationsList = this.form.goodsSpecifications;
+        addGoods(pars).then(res => {
+          this.$message({
+            message: res.msg,
+            type: "success"
+          });
+          this.$props.callback();
         });
-        return;
-      }
-      if (this.form.goodsSpecifications[idx].id) {
-        delSpecification(this.form.goodsSpecifications[idx].id).then(res => {
-          this.form.goodsSpecifications.splice(idx, 1);
-          this.update();
-        });
-      } else {
-        this.form.goodsSpecifications.splice(idx, 1);
+      },
+      selImg(val) {
+        this.imgIdx = event.target.parentElement.parentElement.getAttribute("id");
         this.update();
-      }
-    },
-    addRow() {
-      this.form.goodsSpecifications.push({
-        name: "",
-        retailPrice: "",
-        commission: "",
-        inventory: ""
-      });
-      this.update();
-    },
-    update() {
-      let temp = this.form.name;
-      this.form.name = "";
-      setTimeout(() => {
-        this.form.name = temp;
-        this.changeCategory();
-      }, 1000);
-    },
-    changeCategory() {
-      let that = this;
-      this.category1.map(item => {
-        if (item.id == that.form.categoryId1) {
-          that.category2 = item.categoryMarginList;
-          if (!that.init) {
-            that.form.categoryId = item.categoryMarginList[0].id;
+      },
+      delImg() {
+        var idx = event.target.getAttribute("id");
+        this.form.goodsImgs[idx].url = null;
+        this.form.goodsImgs[idx].fileaddr = null;
+        this.form.goodsImgs[idx].path = '';
+        if(this.form.goodsImgs[idx].id){
+          this.form.goodsImgs[idx].updateId = this.form.goodsImgs[idx].id
+        }
+        this.update();
+      },
+      upload(res, file) {
+
+        let idx =
+          this.imgIdx.indexOf("s") != -1 ?
+          parseInt(this.imgIdx.split("_")[1]) :
+          parseInt(this.imgIdx);
+        if (this.imgIdx.indexOf("s") == -1) {
+          this.form.goodsImgs[idx].fileaddr = res.data.path;
+          this.form.goodsImgs[idx].url = res.data.server + res.data.path;
+          if (this.form.goodsImgs[idx].id) {
+            this.form.goodsImgs[idx].updateId = this.form.goodsImgs[idx].id;
+          }
+        } else {
+          this.form.goodsSpecifications[idx].img = res.data.path;
+          this.form.goodsSpecifications[idx].url = res.data.server + res.data.path;
+          if (this.form.goodsSpecifications[idx].id) {
+            this.form.goodsSpecifications[
+              idx
+            ].updateId = this.form.goodsSpecifications[idx].id;
           }
         }
-      });
+
+        this.update();
+      },
+      delRow(idx) {
+        if (this.form.goodsSpecifications.length == 1) {
+          this.$message({
+            message: "规格不能为空",
+            type: "warning"
+          });
+          return;
+        }
+        if (this.form.goodsSpecifications[idx].id) {
+          delSpecification(this.form.goodsSpecifications[idx].id).then(res => {
+            this.form.goodsSpecifications.splice(idx, 1);
+            this.update();
+          });
+        } else {
+          this.form.goodsSpecifications.splice(idx, 1);
+          this.update();
+        }
+      },
+      addRow() {
+        this.form.goodsSpecifications.push({
+          name: "",
+          retailPrice: "",
+          commission: "",
+          inventory: ""
+        });
+        this.update();
+      },
+      update() {
+         this.changeCategory();
+         this.$forceUpdate()
+      },
+      changeCategory() {
+        let that = this;
+        this.category1.map(item => {
+          if (item.id == that.form.categoryId1) {
+            that.category2 = item.categoryMarginList;
+            if (!that.init) {
+              that.form.categoryId = item.categoryMarginList[0].id;
+            }
+          }
+        });
+      }
     }
-  }
-};
+  };
 </script>
 <style>
-.row {
-  width: 100%;
-  border-bottom: 1px solid #ccc;
-  height: 221px !important;
-  padding-bottom: 10px;
-  padding-top: 5px;
-}
+  .row {
+    width: 100%;
+    border-bottom: 1px solid #ccc;
+    height: 221px !important;
+    padding-bottom: 10px;
+    padding-top: 5px;
+  }
 
-.row div {
-  float: left;
-  width: 195px;
-  margin-right: 5px;
-}
+  .row div {
+    float: left;
+    width: 195px;
+    margin-right: 5px;
+  }
 
-.avatar-uploader .el-upload {
-  border: 1px dashed #d9d9d9;
-  border-radius: 6px;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  float: left;
-  margin-right: 20px;
-  width: 178px !important;
-}
+  .avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    float: left;
+    margin-right: 20px;
+    width: 178px !important;
+  }
 
-.avatar-uploader .el-upload:hover {
-  border-color: #409eff;
-}
+  .avatar-uploader .el-upload:hover {
+    border-color: #409eff;
+  }
 
-.avatar-uploader-icon {
-  font-size: 28px;
-  color: #8c939d;
-  width: 178px;
-  height: 178px;
-  line-height: 178px;
-  text-align: center;
-}
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+  }
 
-.avatar {
-  width: 178px !important;
-  height: 178px;
-  display: block;
-}
+  .avatar {
+    width: 178px !important;
+    height: 178px;
+    display: block;
+  }
 </style>
