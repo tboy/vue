@@ -1,13 +1,12 @@
 <template>
   <div class="container">
-    <el-radio-group v-model="state" @change="query" style="margin-bottom: 10px;">
-      <el-radio-button label="0">待审核</el-radio-button>
-      <el-radio-button label="1">已上架</el-radio-button>
-      <el-radio-button label="2">不通过</el-radio-button>
-    </el-radio-group>
     <div class="seachPanel">
-      ID号：
-      <el-input v-model="youduNum" style="width:180px;" placeholder="ID号"></el-input>
+      <el-select v-model="state" style="width:180px;">
+        <el-option value="0" label="待审核"></el-option>
+        <el-option value="1" label="已上架"></el-option>
+        <el-option value="2" label="不通过"></el-option>
+
+      </el-select>
       产品名称：
       <el-input v-model="name" style="width:180px;" placeholder="产品名称"></el-input>
       创建时间：
@@ -15,12 +14,11 @@
         value-format="yyyy-MM-dd">
       </el-date-picker>
 
-      <el-button style="float:right;margin-left:10px;" @click="reset">重置</el-button>
-      <el-button style="float:right;" type="primary" icon="el-icon-search" @click="query">搜索</el-button>
+      <el-button style="float:right;" type="primary" @click="query">搜索</el-button>
 
     </div>
 
- 
+
 
     <el-table :data="list" border style="width: 100%">
       <el-table-column label="用户名" align="center" width='100'>
@@ -28,49 +26,43 @@
           {{scope.row.usersVo.nickname}}
         </template>
       </el-table-column>
-      <el-table-column label="ID号" align="center" width='100'>
+      <el-table-column label="手机号" align="center" width='100'>
         <template slot-scope="scope">
-          {{scope.row.usersVo.youduNum}}
+          {{scope.row.usersVo.username}}
         </template>
       </el-table-column>
       <el-table-column prop="name" label="产品名称" align="center">
       </el-table-column>
-      <el-table-column prop="createTime" label="创建时间" align="center">
+
+      <el-table-column label="销售价" align="center">
+        <template slot-scope="scope">
+          {{scope.row.specificationsList.length>0?scope.row.specificationsList[0].commission:0}}
+
+        </template>
+
       </el-table-column>
-    <el-table-column label="销售价" align="center">
-      <template slot-scope="scope">
-        {{scope.row.specificationsList.length>0?scope.row.specificationsList[0].commission:0}}
-    
-      </template>
-    
-    </el-table-column>
       <el-table-column label="显示价" align="center">
         <template slot-scope="scope">
 
           {{scope.row.specificationsList.length>0?scope.row.specificationsList[0].retailPrice:0}}
         </template>
       </el-table-column>
-
-      <el-table-column v-if="state>1" label="审核人" align="center">
+      <el-table-column prop="createTime" label="创建时间" align="center">
+      </el-table-column>
+      <el-table-column label="审核人" align="center">
         <template slot-scope="scope">
           {{scope.row.reviewUser?scope.row.reviewUser.username:''}}
         </template>
       </el-table-column>
-      <el-table-column v-if="state>1" prop="reviewdate" label="审核时间" align="center">
+      <el-table-column  prop="reviewdate" label="审核时间" align="center">
       </el-table-column>
 
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
-          <el-button type="primary" plain size="mini" v-if="state==0" @click="audit(scope.row)"> 查看详情</el-button>
-
-          <el-button type="primary" plain size="mini" v-if="state==1" @click="show(scope.row)">查看详情</el-button>
-        
-
-
-          <el-button type="primary" plain size="mini" v-if="state==3" @click="show(scope.row)"> 查看详情</el-button>
-          
-
-          <el-button type="primary" plain size="mini" v-if="state==2" @click="show(scope.row)"> 查看详情</el-button>
+          <el-button type="primary" plain size="mini" v-if="state==0" @click="audit(scope.row)"> 详情</el-button>
+          <el-button type="primary" plain size="mini" v-if="state==1" @click="show(scope.row)">详情</el-button>
+          <el-button type="primary" plain size="mini" v-if="state==3" @click="show(scope.row)"> 详情</el-button>
+          <el-button type="primary" plain size="mini" v-if="state==2" @click="show(scope.row)"> 详情</el-button>
 
         </template>
       </el-table-column>
@@ -117,7 +109,7 @@
         reasonTxt: '',
         time: [],
         records: 100,
-        state: 0,
+        state: "0",
         currentPage: 1,
         freezenObj: {},
         list: []

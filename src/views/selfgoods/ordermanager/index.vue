@@ -1,35 +1,35 @@
 <template>
   <div class="container">
-	  <el-radio-group v-model="state" style="margin-bottom: 10px;" @change="query">
-	    <el-radio-button label="1">待发货</el-radio-button>
-	    <el-radio-button label="2">已发货</el-radio-button>
-	    <el-radio-button label="0">待付款</el-radio-button>
-	    <el-radio-button label="3">待评价</el-radio-button>
-	    <el-radio-button label="9">已完成</el-radio-button>
-	    <el-radio-button label="5">售后商品</el-radio-button>
-	  </el-radio-group>
-    <div class="seachPanel">
 
+    <div class="seachPanel">
+      <el-select v-model="state" style="width:180px;" @change="query">
+        <el-option value="0" label="待付款"></el-option>
+        <el-option value="1" label="待发货"></el-option>
+        <el-option value="2" label="已发货"></el-option>
+        <el-option value="3" label="待评价"></el-option>
+        <el-option value="9" label="已完成"></el-option>
+        <el-option value="5" label="售后"></el-option>
+      </el-select>
       订单编号:
       <el-input v-model="orderNo" style="width:180px;" placeholder="订单编号" />
-      商品名称:
-      <el-input v-model="goodsName" style="width:180px;" placeholder="商品名称" />
-      订单时间：
+      产品名称:
+      <el-input v-model="goodsName" style="width:180px;" placeholder="产品名称" />
+      下单时间：
       <el-date-picker v-model="time" type="daterange" range-separator="至" start-placeholder="开始时间" end-placeholder="结束时间"
         value-format="yyyy-MM-dd yyyy-MM-dd" />
-      <el-button style="float:right;margin-left:10px;" @click="reset">重置</el-button>
-      <el-button style="float:right;" type="primary" icon="el-icon-search" @click="query">搜索</el-button>
+     <el-button style="float:right;margin-left:10px;" type="primary" @click="outXls">导出</el-button>
+
+      <el-button style="float:right;" type="primary" @click="query">搜索</el-button>
 
     </div>
-  
-    <el-button style="float:right;" type="primary" icon="el-icon-download" @click="outXls">导出数据</el-button>
+
 
     <el-table :data="list" border style="width: 100%">
       <el-table-column prop="orderNo" label="订单编号" align="center" width="250" />
-      <el-table-column  prop="total" label="实付金额" align="center" />
+      <el-table-column prop="total" label="金额" align="center" />
 
       <el-table-column prop="createTime" label="下单时间" align="center" />
-      <el-table-column label="买家" align="center">
+      <el-table-column label="用户" align="center">
         <template slot-scope="scope">
           {{ scope.row.usersVo? scope.row.usersVo.nickname:'' }}
         </template>
@@ -42,20 +42,20 @@
       </el-table-column>
 
 
+      <el-table-column prop="deliveryNo" label="物流单号" align="center" />
 
       <el-table-column label="订单状态" align="center">
         <template slot-scope="scope">
           {{ states[scope.row.status] }}
         </template>
       </el-table-column>
-      <el-table-column  prop="deliveryNo" label="物流单号" align="center" />
 
       <el-table-column label="操作" align="center" :min-width="state==1?'150':''">
         <template slot-scope="scope">
-          <el-button type="primary" plain size="mini" @click="show(scope.row)"> 查看详情</el-button>
-          <el-button v-if="state==1" type="primary" @click="uploadKd(scope.row)" plain size="mini">上传快递单号</el-button>
+          <el-button type="primary" plain size="mini" @click="show(scope.row)"> 详情</el-button>
+          <el-button v-if="state==1" type="primary" @click="uploadKd(scope.row)" plain size="mini">快递单</el-button>
 
-          <el-button v-if="state==2" type="primary" @click="show2(scope.row)" plain size="mini"> 查看物流</el-button>
+          <el-button v-if="state==2" type="primary" @click="show2(scope.row)" plain size="mini"> 物流</el-button>
 
         </template>
       </el-table-column>
@@ -63,11 +63,11 @@
     <el-pagination background :current-page.sync="currentPage" style="margin-top:10px;margin-left:-10px;float:right;"
       layout="total,  prev, pager, next, jumper" :page-size="10" :total="records" @current-change="query" />
 
-    <el-dialog title="查看详情" :visible.sync="isShow" width="60%" center>
+    <el-dialog title="详情" :visible.sync="isShow" width="60%" center>
       <Orderinfo ref="orderinfo" />
     </el-dialog>
 
-    <el-dialog title="查看详情" :visible.sync="isShow2" width="60%" center>
+    <el-dialog title="详情" :visible.sync="isShow2" width="60%" center>
       <div style="height: 300px;overflow-y: scroll;">
         <el-steps direction="vertical" :active="1" finish-status="success">
 
@@ -77,7 +77,7 @@
       </div>
     </el-dialog>
 
-    <el-dialog title="上传快递单号" :visible.sync="isShow3" width="30%" center :modal=false>
+    <el-dialog title="填写快递单号" :visible.sync="isShow3" width="30%" center :modal=false>
       <el-input type="textarea" placeholder="请输入快递单号" v-model="reasonTxt"></el-input>
       <span slot="footer" class="dialog-footer">
         <el-button @click="isShow3 = false">取 消</el-button>
@@ -117,16 +117,18 @@
 
         time: [],
         records: 100,
-        state: 1,
+        state: "0",
         currentPage: 1,
         list: [],
         isShow: false,
         isShow2: false,
-        isShow3:false,
+        isShow3: false,
         dList: [],
         reasonTxt: '',
 
-        kdd:{id:0},
+        kdd: {
+          id: 0
+        },
         form: {
           id: '',
           username: '',

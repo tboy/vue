@@ -2,7 +2,7 @@
   <div class="app-container">
     <!-- 表格头部操作 -->
     <div class="filter-container">
-      <el-select v-model="listQuery.promterStatus">
+      <el-select v-model="listQuery.promterStatus" style="width:180px;">
         <el-option key="1" value="1" label="待审核"></el-option>
         <el-option key="2" value="2" label="推广员"></el-option>
       </el-select>
@@ -10,7 +10,7 @@
       <el-input v-model="listQuery.nickname" style="width:180px;" placeholder="用户名" />
       手机号:
       <el-input v-model="listQuery.username" style="width:180px;" placeholder="手机号" />
-      <el-button style="float:right;" type="primary" icon="el-icon-search" @click="getList">搜索</el-button>
+      <el-button style="float:right;" type="primary"  @click="getList">搜索</el-button>
     </div>
 
     <!-- 表格 -->
@@ -90,7 +90,7 @@
         listQuery: {
           nickname:'',
           username:'',
-          promterStatus:1,
+          promterStatus:"1",
           currentPage: 1,
           pageSize: 20,
           username: null,

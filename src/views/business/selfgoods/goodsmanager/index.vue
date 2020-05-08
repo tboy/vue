@@ -1,13 +1,13 @@
 <template>
   <div class="container">
-    <el-radio-group v-model="state" @change="query" style="margin-bottom: 10px;">
-      <el-radio-button label="1">已上架</el-radio-button>
-      <el-radio-button label="-1">未上架</el-radio-button>
-      
-      <el-radio-button label="2">不通过</el-radio-button>
-    </el-radio-group>
-    <div class="seachPanel">
 
+    <div class="seachPanel">
+      <el-select v-model="state" style="width:180px;" @change="query">
+        <el-option value="1" label="已上架"></el-option>
+        <el-option value="-1" label="未上架"></el-option>
+        <el-option value="2" label="不通过"></el-option>
+
+      </el-select>
       产品名称：
       <el-input v-model="name" style="width:180px;" placeholder="产品名称"></el-input>
       创建时间：
@@ -15,12 +15,11 @@
         value-format="yyyy-MM-dd">
       </el-date-picker>
 
-      <el-button style="float:right;margin-left:10px;" @click="reset">重置</el-button>
       <el-button style="float:right;" type="primary" icon="el-icon-search" @click="query">搜索</el-button>
 
     </div>
 
-  
+
 
     <el-table :data="list" border style="width: 100%">
 
@@ -31,9 +30,9 @@
       <el-table-column label="销售价" align="center">
         <template slot-scope="scope">
           {{scope.row.specificationsList.length>0?scope.row.specificationsList[0].commission:0}}
-        
+
         </template>
-        
+
       </el-table-column>
       <el-table-column label="显示价" align="center">
         <template slot-scope="scope">
@@ -101,7 +100,7 @@
         name: '',
         time: [],
         records: 100,
-        state: 1,
+        state: "1",
         currentPage: 1,
         list: []
       }

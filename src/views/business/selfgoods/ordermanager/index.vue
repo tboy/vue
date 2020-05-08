@@ -6,9 +6,7 @@
       <el-input v-model="orderNo" style="width:180px;" placeholder="订单编号"></el-input>
       产品名称:
       <el-input v-model="goodsName" style="width:180px;" placeholder="产品名称"></el-input>
-      买家ID:
-      <el-input v-model="youduNum" style="width:180px;" placeholder="买家ID"></el-input>
-      订单时间：
+     订单时间：
       <el-date-picker v-model="time" type="daterange" range-separator="至" start-placeholder="开始时间" end-placeholder="结束时间"
         value-format="yyyy-MM-dd yyyy-MM-dd">
       </el-date-picker>
@@ -17,9 +15,10 @@
 
     </div>
     <el-radio-group v-model="state" @change="query" style="margin-bottom: 10px;">
-      <el-radio-button label="1">待发货</el-radio-button>
+       <el-radio-button label="0">待付款</el-radio-button>
+	  <el-radio-button label="1">待发货</el-radio-button>
       <el-radio-button label="2">已发货</el-radio-button>
-      <el-radio-button label="0">待付款</el-radio-button>
+     
       <el-radio-button label="3">待评价</el-radio-button>
       <el-radio-button label="9">已完成</el-radio-button>
       <el-radio-button label="5">售后产品</el-radio-button>

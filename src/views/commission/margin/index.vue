@@ -3,7 +3,7 @@
 
     <!-- 表格头部操作 -->
     <div class="filter-container">
-      <el-button class="filter-item" type="primary" v-waves icon="el-icon-edit" @click="addCategory">添加</el-button>
+      <el-button class="filter-item" type="primary" v-waves style="float:right;" @click="addCategory">+</el-button>
     </div>
     <!-- 表格 -->
     <el-table :data="list" stripe border fit highlight-current-row style="width: 100%;min-height:100px;">
@@ -33,17 +33,13 @@
     <!-- 增/改弹窗 -->
     <el-dialog :visible.sync="dialogFormVisible">
       <el-form ref="dataForm" label-position="center" label-width="150px" :model="form">
-        <span>
-          <h3>添加一级目录</h3>
-        </span>
+
         <el-input type="hidden" :rows="2" v-model="form.id"></el-input>
         <el-form-item label="一级目录" prop="name">
           <el-input type="text" :rows="2" v-model="form.name" placeholder="请输入一级目录"></el-input>
         </el-form-item>
 
-        <span>
-          <h3>二级</h3>
-        </span>
+
         <el-col v-for="(item,index) in form.categoryMarginList" v-bind:key="item.index">
             <el-form-item label="二级类目" prop="name">
                <el-input type="text" style="width:150px;float:left;margin-right:20px;" :rows="2" v-model="form.categoryMarginList[index].name" placeholder="请输入二级类目"></el-input>
@@ -58,9 +54,13 @@
           </el-form-item>
 
         </el-col>
+
+        <el-col>
+          <el-button type="primary" style="float: right;margin-top: 10px;margin-bottom: 10px;" @click="addCate">+</el-button>
+
+        </el-col>
       </el-form>
-      <el-button type="primary" @click="addCate">增加</el-button>
-      <div slot="footer" class="dialog-footer">
+       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取消</el-button>
         <el-button type="primary" @click="add">确定</el-button>
       </div>
@@ -119,9 +119,7 @@
       upload(res, file) {
         this.form.categoryMarginList[this.imgIdx].img = res.data.path;
         this.form.categoryMarginList[this.imgIdx].imageServer = res.data.server;
-
-
-
+        this.form.categoryMarginList.sort();
       },
       findAllCategoryMargin() {
         supplier.findAllCategoryMargin().then(response => {

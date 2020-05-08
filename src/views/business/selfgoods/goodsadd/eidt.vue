@@ -3,6 +3,14 @@
 
     <el-form style="width:80%;margin:auto;" label-position="left" ref="form" :model="form" label-width="120px">
       <div style="font-size: 17px;margin: 20px 0;font-weight: bold;">1.产品基本信息</div>
+
+      <el-form-item label="产品名称:">
+        <el-input v-model="form.name" placeholder="请输入内容" maxlength="10" show-word-limit style="width:500px;"></el-input>
+
+      </el-form-item>
+      <el-form-item label="产品副标题:">
+        <el-input v-model="form.subName" placeholder="请输入内容" maxlength="30" show-word-limit style="width:500px;"></el-input>
+      </el-form-item>
       <el-form-item label="产品分类:">
         <el-select v-model="form.categoryId1" @change="changeCategory" placeholder="请选择" style="width:250px;float:left;margin-right:20px;">
           <el-option v-for="item in category1" :key="item.id" :label="item.name" :value="item.id"></el-option>
@@ -10,13 +18,6 @@
         <el-select v-model="form.categoryId" placeholder="请选择" style="width:250px;">
           <el-option v-for="item in category2" :key="item.id" :label="item.name" :value="item.id"></el-option>
         </el-select>
-      </el-form-item>
-      <el-form-item label="产品名称:">
-        <el-input v-model="form.name" placeholder="请输入内容" maxlength="10" show-word-limit  style="width:500px;"></el-input>
-
-      </el-form-item>
-      <el-form-item label="产品副标题:">
-        <el-input v-model="form.subName" placeholder="请输入内容" maxlength="30" show-word-limit  style="width:500px;"></el-input>
       </el-form-item>
       <el-form-item label="产品规格:">
         <div class="row" v-for="(item,idx) in form.goodsSpecifications">
@@ -26,6 +27,7 @@
             <img v-if="item.url" :src="item.url" class="avatar" />
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
+
           <div>
             规格：
             <el-input type="text" v-model="item.name" placeholder="请输入规格" style="width:100px;float:right;"></el-input>
@@ -53,7 +55,7 @@
       </el-form-item>
       <el-form-item label="产品图片:">
         <div style="width:100%;height: 192px;">
-          <div v-for="(item,idx) in form.goodsImgs"  style="width:178px;float:left;margin-right:20px;">
+          <div v-for="(item,idx) in form.goodsImgs" style="width:178px;float:left;margin-right:20px;">
             <i v-if="item.url" class="el-icon-close" @click="delImg()" :id="idx" style="margin-left:174px;height: 13px;width: 13px;color: white;background: #1890ff;cursor:pointer;border-radius: 100%;position: absolute;top:-10px;"></i>
             <el-upload :before-upload="selImg" :id="idx" class="avatar-uploader" :action="uploadPath" :show-file-list="false"
               :on-success="upload">
@@ -154,7 +156,7 @@
     data() {
       return {
 
-        time:null,
+        time: null,
         isSave: true,
         init: false,
         isAudit: false,
@@ -364,7 +366,7 @@
         this.form.goodsImgs[idx].url = null;
         this.form.goodsImgs[idx].fileaddr = null;
         this.form.goodsImgs[idx].path = '';
-        if(this.form.goodsImgs[idx].id){
+        if (this.form.goodsImgs[idx].id) {
           this.form.goodsImgs[idx].updateId = this.form.goodsImgs[idx].id
         }
         this.update();
@@ -421,8 +423,8 @@
         this.update();
       },
       update() {
-         this.changeCategory();
-         this.$forceUpdate()
+        this.changeCategory();
+        
       },
       changeCategory() {
         let that = this;
@@ -434,6 +436,7 @@
             }
           }
         });
+        this.$forceUpdate()
       }
     }
   };

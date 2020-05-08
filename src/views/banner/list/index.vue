@@ -4,35 +4,21 @@
     <!-- 表格头部操作 -->
     <div class="filter-container">
 
-
-
-      <el-date-picker
-        class="filter-item filter-date"
-        v-model="searchRegisterDate"
-        type="daterange"
-        range-separator="至"
-        @change="pickerRegisterChange"
-        value-format="yyyy-MM-dd HH:mm:ss"
-        format="yyyy 年 MM 月 dd 日"
-        start-placeholder="入住开始日期"
-        end-placeholder="入住结束日期">
-      </el-date-picker>
-
-      <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleFilter">搜索</el-button>
-      <el-button class="filter-item"  type="primary" v-waves icon="el-icon-edit" @click="createHeadDialog">添加</el-button>
+      <el-button class="filter-item" type="primary" v-waves  @click="handleFilter">搜索</el-button>
+      <el-button class="filter-item"  type="primary" v-waves  @click="createHeadDialog">+</el-button>
 
     </div>
     <!-- 表格 -->
     <el-table :key='tableKey' :data="list" v-loading="listLoading" stripe border fit highlight-current-row
               style="width: 100%;min-height:100px;">
 
-      <el-table-column align="center" label="排序" min-width="150px">
+      <el-table-column align="center" label="序号" min-width="150px">
         <template slot-scope="scope">
           <span>{{scope.row.sort}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="图片路径" min-width="150px">
+      <el-table-column align="center" label="图片" min-width="150px">
         <template slot-scope="scope">
             <img :src="scope.row.imgServer+scope.row.banner" class="xszImg" style="width:100px;height:50px;">
         </template>
@@ -68,11 +54,11 @@
  -->
 
 
-        <el-form-item label="排序" prop="sort">
+        <el-form-item label="序号" prop="sort">
           <el-input type="text" :rows="2"  class="input-name" v-model="form.sort"></el-input>
         </el-form-item>
 
-        <el-form-item label="图片路径" prop="banner">
+        <el-form-item label="图片" prop="banner">
          <!-- <el-input type="text" :rows="2" disabled class="input-name input-file-image" v-model="form.banner"></el-input>
           <span class="file-show file-page file-image" :style="imageBg" v-loading="fileBtnLoading">{{fileIconText}}</span>
           <input type="file" class="file-update file-page input-image" v-on:change="updateIcon($event)"> -->
@@ -146,8 +132,8 @@
         btnLoading: false,
         dialogFormVisible: false,
         dialogLoading: false,
-        dialogTitle: '修改banner',
-        fileIconText: '上传banner',
+        dialogTitle: '修改轮播图',
+        fileIconText: '上传轮播图',
         fileBtnLoading: false,
         imageBg: null,
         valids: {

@@ -1,9 +1,9 @@
 <template>
   <div class="app-container" v-loading="listLoading">
-    <el-button class="filter-item" style="margin-bottom: 30px;" @click="createDialog" type="primary" icon="el-icon-edit">添加</el-button>
+    <el-button class="filter-item" style="margin-bottom: 30px;" @click="createDialog" >+</el-button>
     <el-row :gutter="32">
       <el-col :xs="24" :sm="8" v-for="(item,index) in list" :key="index">
-        <div class="role-wrapper"  @mouseover="show(index)" @mouseout="hide(index)">
+        <div class="role-wrapper" style="background-color: #13CE66;width:200px;" @mouseover="show(index)" @mouseout="hide(index)">
           <p class="role-name">{{item.name}}</p>
           <div v-show="item.show" class="role-act-btn">
             <el-row type="flex" class="row-bg" justify="space-around">
