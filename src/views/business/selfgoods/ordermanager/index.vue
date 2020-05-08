@@ -4,8 +4,8 @@
 
       订单编号:
       <el-input v-model="orderNo" style="width:180px;" placeholder="订单编号"></el-input>
-      商品名称:
-      <el-input v-model="goodsName" style="width:180px;" placeholder="商品名称"></el-input>
+      产品名称:
+      <el-input v-model="goodsName" style="width:180px;" placeholder="产品名称"></el-input>
       买家ID:
       <el-input v-model="youduNum" style="width:180px;" placeholder="买家ID"></el-input>
       订单时间：
@@ -22,7 +22,7 @@
       <el-radio-button label="0">待付款</el-radio-button>
       <el-radio-button label="3">待评价</el-radio-button>
       <el-radio-button label="9">已完成</el-radio-button>
-      <el-radio-button label="5">售后商品</el-radio-button>
+      <el-radio-button label="5">售后产品</el-radio-button>
     </el-radio-group>
 
     <el-table :data="list" border style="width: 100%">

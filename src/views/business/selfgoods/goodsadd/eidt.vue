@@ -2,23 +2,56 @@
   <div class="container">
 
     <el-form style="width:80%;margin:auto;" label-position="left" ref="form" :model="form" label-width="120px">
-      <div style="font-size: 17px;margin: 20px 0;font-weight: bold;">1.商品基本信息</div>
-      <el-form-item label="商品分类:">
-        <el-select v-model="form.categoryId1" @change="changeCategory" placeholder="请选择">
+      <div style="font-size: 17px;margin: 20px 0;font-weight: bold;">1.产品基本信息</div>
+      <el-form-item label="产品分类:">
+        <el-select v-model="form.categoryId1" @change="changeCategory" placeholder="请选择" style="width:250px;float:left;margin-right:20px;">
           <el-option v-for="item in category1" :key="item.id" :label="item.name" :value="item.id"></el-option>
         </el-select>
-        <el-select v-model="form.categoryId" placeholder="请选择" style="width:350px;">
+        <el-select v-model="form.categoryId" placeholder="请选择" style="width:250px;">
           <el-option v-for="item in category2" :key="item.id" :label="item.name" :value="item.id"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="商品名称:">
-        <el-input v-model="form.name" placeholder="请输入内容" maxlength="20" show-word-limit></el-input>
+      <el-form-item label="产品名称:">
+        <el-input v-model="form.name" placeholder="请输入内容" maxlength="10" show-word-limit  style="width:500px;"></el-input>
 
       </el-form-item>
-      <el-form-item label="商品副标题:">
-        <el-input v-model="form.subName" placeholder="请输入内容" maxlength="40" show-word-limit></el-input>
+      <el-form-item label="产品副标题:">
+        <el-input v-model="form.subName" placeholder="请输入内容" maxlength="30" show-word-limit  style="width:500px;"></el-input>
       </el-form-item>
-      <el-form-item label="商品图片:">
+      <el-form-item label="产品规格:">
+        <div class="row" v-for="(item,idx) in form.goodsSpecifications">
+          <el-upload :before-upload="selImg" :id="'s_'+idx" class="avatar-uploader" style="width:178px;" :action="uploadPath"
+            :show-file-list="false" :on-success="upload">
+
+            <img v-if="item.url" :src="item.url" class="avatar" />
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+          </el-upload>
+          <div>
+            规格：
+            <el-input type="text" v-model="item.name" placeholder="请输入规格" style="width:100px;float:right;"></el-input>
+          </div>
+          <div>
+            销售价：
+            <el-input type="number" v-model="item.retailPrice" placeholder="请输入销售价" style="width:110px;float:right;"></el-input>
+          </div>
+          <div>
+            显示价：
+            <el-input type="number" v-model="item.commission" placeholder="请输入显示价" style="width:110px;float:right;"></el-input>
+          </div>
+          <div>
+            数量：
+            <el-input type="number" v-model="item.inventory" placeholder="请输入数量" style="width:130px;float:right;"></el-input>
+          </div>
+
+          <div style="float:right;  margin-right:0px;margin-top:119px;" v-if="isSave">
+            <el-button plain size="mini" @click="delRow(idx)">删除</el-button>
+            <el-button plain size="mini" @click="addRow">增加</el-button>
+          </div>
+        </div>
+        <br />
+
+      </el-form-item>
+      <el-form-item label="产品图片:">
         <div style="width:100%;height: 192px;">
           <div v-for="(item,idx) in form.goodsImgs"  style="width:178px;float:left;margin-right:20px;">
             <i v-if="item.url" class="el-icon-close" @click="delImg()" :id="idx" style="margin-left:174px;height: 13px;width: 13px;color: white;background: #1890ff;cursor:pointer;border-radius: 100%;position: absolute;top:-10px;"></i>
@@ -31,44 +64,11 @@
             </el-upload>
           </div>
         </div>
-        <div style="width:100%;">商品图片尺寸：698*298px，主图大小不能超过800K；</div>
-      </el-form-item>
-      <el-form-item label="商品规格:">
-
-
-        <div class="row" v-for="(item,idx) in form.goodsSpecifications">
-          <div>
-            名称：
-            <el-input type="text" v-model="item.name" placeholder="请输入名称" style="width:130px;float:right;"></el-input>
-          </div>
-          <div>
-            零售价：
-            <el-input type="number" v-model="item.retailPrice" placeholder="请输入零售价" style="width:110px;float:right;"></el-input>
-          </div>
-          <div>
-            原价：
-            <el-input type="number" v-model="item.commission" placeholder="请输入原价" style="width:110px;float:right;"></el-input>
-          </div>
-          <div>
-            库存：
-            <el-input type="number" v-model="item.inventory" placeholder="请输入库存" style="width:130px;float:right;"></el-input>
-          </div>
-          <el-upload :before-upload="selImg" :id="'s_'+idx" class="avatar-uploader" style="width:178px;" :action="uploadPath"
-            :show-file-list="false" :on-success="upload">
-
-            <img v-if="item.url" :src="item.url" class="avatar" />
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-          </el-upload>
-          <div style="float:right;  margin-right:0px;" v-if="isSave">
-            <el-button plain size="mini" @click="delRow(idx)">删除</el-button>
-            <el-button plain size="mini" @click="addRow">增加</el-button>
-          </div>
-        </div>
-        <br />
 
       </el-form-item>
 
-      <div style="font-size: 17px;margin: 20px 0;font-weight: bold;">2.商品设置</div>
+
+      <div style="font-size: 17px;margin: 20px 0;font-weight: bold;">2.产品设置</div>
       <!-- <el-form-item label="物流:">
         <el-checkbox-group v-model="form.isTake">
           <el-checkbox label="自提" value="1" name="isTake"></el-checkbox>
@@ -86,15 +86,15 @@
       </el-form-item>
 
       <el-form-item label="技术参数:">
-        <tinymce :height="450" v-model="form.technicalPars"></tinymce>上传1张图片商品信息，图片尺寸：1334x667px，图片大小不能超过800K。
+        <tinymce :height="450" v-model="form.technicalPars"></tinymce>上传1张图片产品信息，图片尺寸：1334x667px，图片大小不能超过800K。
       </el-form-item>-->
 
-      <el-form-item label="商品详情:">
-        <tinymce :height="450" v-model="form.goodsDetail"></tinymce>只能上传6张图片，图片尺寸：1334x667px，图片大小不能超过800K。
+      <el-form-item label="详情:">
+        <tinymce :height="450" v-model="form.goodsDetail"></tinymce>
       </el-form-item>
 
       <div style="font-size: 17px;margin: 20px 0;font-weight: bold;">
-        <!-- 3.商品其它信息 -->
+        <!-- 3.产品其它信息 -->
       </div>
       <!-- <el-form-item label="上架时间:">
         <el-radio-group v-model="form.upType">
@@ -282,14 +282,14 @@
         let pars = JSON.parse(JSON.stringify(this.form));
         if (pars.name == "") {
           this.$message({
-            message: "请输入商品名称",
+            message: "请输入产品名称",
             type: "warning"
           });
           return;
         }
         if (pars.subName == "") {
           this.$message({
-            message: "请输入商品副标题",
+            message: "请输入产品副标题",
             type: "warning"
           });
           return;
@@ -306,7 +306,7 @@
         pars.goodsImgs = arr;
         if (arr.length == 0) {
           this.$message({
-            message: "请上传商品图片",
+            message: "请上传产品图片",
             type: "warning"
           });
           return;
@@ -337,7 +337,7 @@
 
         if (pars.goodsDetail == "") {
           this.$message({
-            message: "请输入商品详情",
+            message: "请输入产品详情",
             type: "warning"
           });
           return;
@@ -449,7 +449,7 @@
 
   .row div {
     float: left;
-    width: 195px;
+    width: 185px;
     margin-right: 5px;
   }
 

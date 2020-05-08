@@ -22,8 +22,8 @@
     <el-radio-group v-model="state" @change="query" style="margin-bottom: 10px;">
       <el-radio-button label="0">待审核</el-radio-button>
       <el-radio-button label="1">已通过</el-radio-button>
-      <el-radio-button label="2">警告</el-radio-button>
-      <el-radio-button label="3">冻结</el-radio-button>
+      
+     
     </el-radio-group>
 
     <el-table :data="list" border style="width: 100%">
@@ -115,12 +115,12 @@
 
       },
       warming(item) {
-        this.tit = '警告原因'
+        this.tit = ''
         this.reasonTxt = ''
         this.isShow = true
       },
       frezen(item) {
-        this.tit = '冻结原因'
+        this.tit = ''
         this.reasonTxt = ''
         this.isShow = true
       },

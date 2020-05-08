@@ -1,5 +1,10 @@
 <template>
   <div class="container">
+    <el-radio-group v-model="states" @change="query" style="margin-bottom: 10px;">
+      <el-radio-button label="0">待结算</el-radio-button>
+      <el-radio-button label="1">已结算</el-radio-button>
+      
+    </el-radio-group>
     <div class="seachPanel">
  订单编号:
       <el-input v-model="orderNo" style="width:180px;" placeholder="订单编号"></el-input>
@@ -15,11 +20,7 @@
 
     </div>
 
-    <el-radio-group v-model="states" @change="query" style="margin-bottom: 10px;">
-      <el-radio-button label="0">待结算</el-radio-button>
-      <el-radio-button label="1">已结算</el-radio-button>
-      <el-radio-button label="8">已冻结</el-radio-button>
-    </el-radio-group>
+   
     <el-button style="float:right;" type="primary" icon="el-icon-download" @click="outXls">导出账单</el-button>
 
     <el-table :data="list" border style="width: 100%">

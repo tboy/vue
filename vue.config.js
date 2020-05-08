@@ -41,8 +41,8 @@ module.exports = {
       // change xxx-api/login => mock/login
       // detail: https://cli.vuejs.org/config/#devserver-proxy
       [process.env.VUE_APP_BASE_API]: {
-       target: 'http://192.168.0.122:9002/', //修改后台接口地址
-       //target: 'http://localhost:9002/', //正式
+      // target: 'http://192.168.0.122:9002/', //修改后台接口地址
+       target: 'http://localhost:9002/', //正式
         changeOrigin: true,
         ws: false,
         pathRewrite: {

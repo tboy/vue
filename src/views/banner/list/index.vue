@@ -4,7 +4,7 @@
     <!-- 表格头部操作 -->
     <div class="filter-container">
 
-       
+
 
       <el-date-picker
         class="filter-item filter-date"
@@ -59,14 +59,14 @@
         <!--<el-form-item :label="$t('banner.object')" prop="object">-->
           <!--<el-input type="text" :rows="2"  class="input-name" v-model="form.object"></el-input>-->
         <!--</el-form-item>-->
-        <el-form-item label="对象属性" prop="object">
+       <!-- <el-form-item label="对象属性" prop="object">
           <el-select class="filter-item" v-model="form.object" placeholder="请选择">
             <el-option v-for="item in  objs" :key="item.key" :label="item.display_name" :value="item.key">
             </el-option>
           </el-select>
         </el-form-item>
+ -->
 
-       
 
         <el-form-item label="排序" prop="sort">
           <el-input type="text" :rows="2"  class="input-name" v-model="form.sort"></el-input>
@@ -89,7 +89,7 @@
           </el-upload>
         </el-form-item>
 
-       
+
         </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取消</el-button>
@@ -196,8 +196,10 @@
         })
       },
       upload(res, file) {
+
          this.form.banner = res.data.path;
-         this.from.imgServer = res.data.server;
+         this.form.imgServer = res.data.server;
+
       },
       pickerRegisterChange() {
         this.listQuery.searchStarttime = this.searchRegisterDate ? this.searchRegisterDate[0] : null
@@ -220,11 +222,13 @@
         this.btnLoading = false
         this.form = {
           id: '',
-          object: '',
-          type: '',
-          sort: '',
+          object: 'back',
+          type: 0,
+          sort: 0,
           banner: '',
-          action: ''
+          imgServer:'',
+          action: 'string',
+
         }
         this.imageBg = ''
         this.$nextTick(() => {

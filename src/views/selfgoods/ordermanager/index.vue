@@ -1,5 +1,13 @@
 <template>
   <div class="container">
+	  <el-radio-group v-model="state" style="margin-bottom: 10px;" @change="query">
+	    <el-radio-button label="1">待发货</el-radio-button>
+	    <el-radio-button label="2">已发货</el-radio-button>
+	    <el-radio-button label="0">待付款</el-radio-button>
+	    <el-radio-button label="3">待评价</el-radio-button>
+	    <el-radio-button label="9">已完成</el-radio-button>
+	    <el-radio-button label="5">售后商品</el-radio-button>
+	  </el-radio-group>
     <div class="seachPanel">
 
       订单编号:
@@ -13,14 +21,7 @@
       <el-button style="float:right;" type="primary" icon="el-icon-search" @click="query">搜索</el-button>
 
     </div>
-    <el-radio-group v-model="state" style="margin-bottom: 10px;" @change="query">
-      <el-radio-button label="1">待发货</el-radio-button>
-      <el-radio-button label="2">已发货</el-radio-button>
-      <el-radio-button label="0">待付款</el-radio-button>
-      <el-radio-button label="3">待评价</el-radio-button>
-      <el-radio-button label="9">已完成</el-radio-button>
-      <el-radio-button label="5">售后商品</el-radio-button>
-    </el-radio-group>
+  
     <el-button style="float:right;" type="primary" icon="el-icon-download" @click="outXls">导出数据</el-button>
 
     <el-table :data="list" border style="width: 100%">

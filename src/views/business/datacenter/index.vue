@@ -20,7 +20,7 @@
         <icon class="el-icon-data-line icon"></icon>
         <div class="info">
           <div>{{item.data1.fGoodsNum}}</div>
-          <div>新增用户收藏商品数</div>
+          <div>新增用户收藏产品数</div>
         </div>
       </div>
       <div class="rect">

@@ -18,7 +18,7 @@
     <el-radio-group v-model="states" @change="query" style="margin-bottom: 10px;">
       <el-radio-button label="0">待结算</el-radio-button>
       <el-radio-button label="1">已结算</el-radio-button>
-      <el-radio-button label="8">已冻结</el-radio-button>
+      
     </el-radio-group>
     <el-button style="float:right;" type="primary" icon="el-icon-download" @click="outXls">导出账单</el-button>
 
@@ -29,11 +29,7 @@
       <el-table-column prop="total" label="实付金额" align="center">
 
       </el-table-column>
-      <el-table-column label="支付方式" align="center">
-        <template slot-scope="scope">
-          {{scope.row.payType==1?'微信':'支付宝'}}
-        </template>
-      </el-table-column>
+    
 
       <el-table-column prop="createTime" label="下单时间" align="center">
 

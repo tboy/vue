@@ -3,7 +3,7 @@
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
 
       <div class="title-container">
-        <h3 class="title">水果市场</h3>
+        <h3 class="title">产品管理后台</h3>
       </div>
 
       <el-form-item prop="username">
@@ -44,7 +44,7 @@
           </span>
         </el-form-item>
       </el-tooltip>
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>
+      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;background-color:#6c9e3e;border:0;" @click.native.prevent="handleLogin">登录</el-button>
     </el-form>
   </div>
 </template>
@@ -189,7 +189,7 @@ export default {
 /* 修复input 背景不协调 和光标变色 */
 /* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
 
-$bg:#283443;
+$bg:#2e6000;
 $light_gray:#fff;
 $cursor: #fff;
 
@@ -233,7 +233,7 @@ $cursor: #fff;
 </style>
 
 <style lang="scss" scoped>
-$bg:#2d3a4b;
+$bg:#2e6000;
 $dark_gray:#889aa4;
 $light_gray:#eee;
 
@@ -272,6 +272,12 @@ $light_gray:#eee;
     display: inline-block;
   }
 
+.login-container[data-v-37dfd6fc] {
+    min-height: 100%;
+    width: 100%;
+    background-color: #2d3a4b;
+    overflow: hidden;
+}
   .title-container {
     position: relative;
 

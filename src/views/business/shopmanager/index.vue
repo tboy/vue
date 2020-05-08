@@ -12,7 +12,7 @@
           </el-upload>
         </div>
         <div style="width:100%;">
-          商品图片尺寸：800*800px，主图大小不能超过800K；
+          产品图片尺寸：800*800px，主图大小不能超过800K；
         </div>
       </el-form-item>
 
@@ -29,7 +29,7 @@
           </el-upload>
         </div>
         <div style="width:100%;">
-          商品图片尺寸：800*800px，主图大小不能超过800K；
+          产品图片尺寸：800*800px，主图大小不能超过800K；
         </div>
       </el-form-item>
 

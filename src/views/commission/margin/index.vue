@@ -7,13 +7,13 @@
     </div>
     <!-- 表格 -->
     <el-table :data="list" stripe border fit highlight-current-row style="width: 100%;min-height:100px;">
-      <el-table-column prop="list.name" label="经营大类" min-width="100px" align="center">
+      <el-table-column prop="list.name" label="一级目录" min-width="100px" align="center">
         <template slot-scope="scope">
           <span>{{scope.row.name}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column prop="list.categoryMarginList.name" label="一级类目" min-width="100px" align="center">
+      <el-table-column prop="list.categoryMarginList.name" label="二级类目" min-width="100px" align="center">
         <template slot-scope="scope">
           <p v-for="item in scope.row.categoryMarginList">{{item.name}}</p>
         </template>
@@ -34,31 +34,32 @@
     <el-dialog :visible.sync="dialogFormVisible">
       <el-form ref="dataForm" label-position="center" label-width="150px" :model="form">
         <span>
-          <h3>添加经营大类</h3>
+          <h3>添加一级目录</h3>
         </span>
         <el-input type="hidden" :rows="2" v-model="form.id"></el-input>
-        <el-form-item label="经营大类" prop="name">
-          <el-input type="text" :rows="2" v-model="form.name" placeholder="请输入经营大类"></el-input>
+        <el-form-item label="一级目录" prop="name">
+          <el-input type="text" :rows="2" v-model="form.name" placeholder="请输入一级目录"></el-input>
         </el-form-item>
 
         <span>
-          <h3>类目详情</h3>
+          <h3>二级</h3>
         </span>
         <el-col v-for="(item,index) in form.categoryMarginList" v-bind:key="item.index">
-          <el-form-item label="一级类目" prop="name">
+            <el-form-item label="二级类目" prop="name">
+               <el-input type="text" style="width:150px;float:left;margin-right:20px;" :rows="2" v-model="form.categoryMarginList[index].name" placeholder="请输入二级类目"></el-input>
             <el-upload  :before-upload="selImg" :id="index" class="avatar-uploader"
               :action="uploadPath" :show-file-list="false" :on-success="upload">
               <img v-if="form.categoryMarginList[index].img" :src="form.categoryMarginList[index].imageServer+form.categoryMarginList[index].img" class="avatar" />
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
-            <el-input type="text" :rows="2" v-model="form.categoryMarginList[index].name" placeholder="请输入一级类目"></el-input>
+
 
 
           </el-form-item>
 
         </el-col>
       </el-form>
-      <el-button type="primary" @click="addCate">增加类目</el-button>
+      <el-button type="primary" @click="addCate">增加</el-button>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取消</el-button>
         <el-button type="primary" @click="add">确定</el-button>

@@ -6,9 +6,9 @@
       <div class="col">
         <div class="titl">订单详情</div>
         <div>下单时间:{{item.createTime}}</div>
-        <div>商品名称:{{item.tblOrderItemList?item.tblOrderItemList[0].goodsName:''}}</div>
-        <div>商品规格:{{item.tblOrderItemList?item.tblOrderItemList[0].specName:''}}</div>
-        <div>商品数量:{{item.num}}</div>
+        <div>产品名称:{{item.tblOrderItemList?item.tblOrderItemList[0].goodsName:''}}</div>
+        <div>产品规格:{{item.tblOrderItemList?item.tblOrderItemList[0].specName:''}}</div>
+        <div>产品数量:{{item.num}}</div>
         <div>订单状态:{{states[item.status]}}</div>
         <div>
           <div>支付方式:{{item.payType==1?'微信':'支付宝'}}</div>

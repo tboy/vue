@@ -1,10 +1,15 @@
 <template>
   <div class="container">
+    <el-radio-group v-model="state" @change="query" style="margin-bottom: 10px;">
+      <el-radio-button label="0">待审核</el-radio-button>
+      <el-radio-button label="1">已上架</el-radio-button>
+      <el-radio-button label="2">不通过</el-radio-button>
+    </el-radio-group>
     <div class="seachPanel">
       ID号：
       <el-input v-model="youduNum" style="width:180px;" placeholder="ID号"></el-input>
-      商品名称：
-      <el-input v-model="name" style="width:180px;" placeholder="商品名称"></el-input>
+      产品名称：
+      <el-input v-model="name" style="width:180px;" placeholder="产品名称"></el-input>
       创建时间：
       <el-date-picker v-model="time" type="daterange" range-separator="至" start-placeholder="开始时间" end-placeholder="结束时间"
         value-format="yyyy-MM-dd">
@@ -15,12 +20,7 @@
 
     </div>
 
-    <el-radio-group v-model="state" @change="query" style="margin-bottom: 10px;">
-      <el-radio-button label="0">待审核</el-radio-button>
-      <el-radio-button label="1">已上架</el-radio-button>
-      <el-radio-button label="3">已冻结</el-radio-button>
-      <el-radio-button label="2">不通过</el-radio-button>
-    </el-radio-group>
+ 
 
     <el-table :data="list" border style="width: 100%">
       <el-table-column label="用户名" align="center" width='100'>
@@ -33,18 +33,18 @@
           {{scope.row.usersVo.youduNum}}
         </template>
       </el-table-column>
-      <el-table-column prop="name" label="商品名称" align="center">
+      <el-table-column prop="name" label="产品名称" align="center">
       </el-table-column>
       <el-table-column prop="createTime" label="创建时间" align="center">
       </el-table-column>
-    <el-table-column label="原价" align="center">
+    <el-table-column label="销售价" align="center">
       <template slot-scope="scope">
         {{scope.row.specificationsList.length>0?scope.row.specificationsList[0].commission:0}}
     
       </template>
     
     </el-table-column>
-      <el-table-column label="零售价" align="center">
+      <el-table-column label="显示价" align="center">
         <template slot-scope="scope">
 
           {{scope.row.specificationsList.length>0?scope.row.specificationsList[0].retailPrice:0}}
@@ -64,11 +64,11 @@
           <el-button type="primary" plain size="mini" v-if="state==0" @click="audit(scope.row)"> 查看详情</el-button>
 
           <el-button type="primary" plain size="mini" v-if="state==1" @click="show(scope.row)">查看详情</el-button>
-          <el-button type="primary" plain size="mini" v-if="state==1" @click="freezen(scope.row,3)">冻结</el-button>
+        
 
 
           <el-button type="primary" plain size="mini" v-if="state==3" @click="show(scope.row)"> 查看详情</el-button>
-          <el-button type="primary" plain size="mini" v-if="state==3" @click="freezen(scope.row,-1)">解冻</el-button>
+          
 
           <el-button type="primary" plain size="mini" v-if="state==2" @click="show(scope.row)"> 查看详情</el-button>
 
@@ -80,7 +80,7 @@
     </el-pagination>
 
 
-    <el-dialog title="编辑商品" :visible.sync="isShow" width="88%" height="100%" center>
+    <el-dialog title="编辑产品" :visible.sync="isShow" width="88%" height="100%" center>
       <Edit ref="edit" :callback='callback' style="width: 100%;height: 600px;border: 0;overflow-x: hidden;" />
     </el-dialog>
 

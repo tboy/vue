@@ -1,9 +1,15 @@
 <template>
   <div class="container">
+    <el-radio-group v-model="state" @change="query" style="margin-bottom: 10px;">
+      <el-radio-button label="1">已上架</el-radio-button>
+      <el-radio-button label="-1">未上架</el-radio-button>
+      
+      <el-radio-button label="2">不通过</el-radio-button>
+    </el-radio-group>
     <div class="seachPanel">
 
-      商品名称：
-      <el-input v-model="name" style="width:180px;" placeholder="商品名称"></el-input>
+      产品名称：
+      <el-input v-model="name" style="width:180px;" placeholder="产品名称"></el-input>
       创建时间：
       <el-date-picker v-model="time" type="daterange" range-separator="至" start-placeholder="开始时间" end-placeholder="结束时间"
         value-format="yyyy-MM-dd">
@@ -14,27 +20,22 @@
 
     </div>
 
-    <el-radio-group v-model="state" @change="query" style="margin-bottom: 10px;">
-      <el-radio-button label="1">已上架</el-radio-button>
-      <el-radio-button label="-1">未上架</el-radio-button>
-      <el-radio-button label="3">已冻结</el-radio-button>
-      <el-radio-button label="2">不通过</el-radio-button>
-    </el-radio-group>
+  
 
     <el-table :data="list" border style="width: 100%">
 
-      <el-table-column prop="name" label="商品名称" align="center">
+      <el-table-column prop="name" label="产品名称" align="center">
       </el-table-column>
       <el-table-column prop="createTime" label="创建时间" align="center">
       </el-table-column>
-      <el-table-column label="原价" align="center">
+      <el-table-column label="销售价" align="center">
         <template slot-scope="scope">
           {{scope.row.specificationsList.length>0?scope.row.specificationsList[0].commission:0}}
         
         </template>
         
       </el-table-column>
-      <el-table-column label="零售价" align="center">
+      <el-table-column label="显示价" align="center">
         <template slot-scope="scope">
           {{scope.row.specificationsList.length>0?scope.row.specificationsList[0].retailPrice:0}}
 
@@ -59,7 +60,7 @@
           <el-button type="primary" plain size="mini" v-if="state==-1" @click="del(scope.row)"> 删除</el-button>
 
           <el-button type="primary" plain size="mini" v-if="state==3" @click="show(scope.row)"> 预览</el-button>
-          <el-button type="primary" plain size="mini" v-if="state==3" @click="apply"> 解冻申请</el-button>
+          <!--<el-button type="primary" plain size="mini" v-if="state==3" @click="apply"> 解冻申请</el-button>-->
 
           <el-button type="primary" plain size="mini" v-if="state==2" @click="show(scope.row)"> 预览</el-button>
 
@@ -71,7 +72,7 @@
     </el-pagination>
 
 
-    <el-dialog title="编辑商品" :visible.sync="isShow" width="88%" height="100%" right>
+    <el-dialog title="编辑产品" :visible.sync="isShow" width="88%" height="100%" right>
       <Edit ref="edit" :callback='callback' style="width: 100%;height: 600px;border: 0;overflow-x: hidden;" />
     </el-dialog>
 
@@ -110,7 +111,7 @@
     },
     methods: {
       apply() {
-        this.$alert('申请商品解冻，请详细说明原因，截图或照片发邮件给我们，便于工作人员审核，谢谢你的配合。<br>邮箱：raywu@eprosale.com', '提示', {
+        this.$alert('申请产品解冻，请详细说明原因，截图或照片发邮件给我们，便于工作人员审核，谢谢你的配合。<br>邮箱：raywu@eprosale.com', '提示', {
           confirmButtonText: '确定',
           dangerouslyUseHTMLString: true,
           callback: action => {

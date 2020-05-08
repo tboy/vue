@@ -122,7 +122,7 @@
 
         </el-form-item>
 
-        <div style="font-size: 17px;margin: 20px 0;font-weight: bold;">商品类目</div>
+        <div style="font-size: 17px;margin: 20px 0;font-weight: bold;">产品类目</div>
         <el-form-item label="一级类目:">
           {{form.categoryMarginVo.name}}
         </el-form-item>
@@ -198,7 +198,7 @@
         reviewer: '',
         time2: [],
         time: [],
-        states: ['待审核', '已通过', '已拒绝', '已冻结'],
+        states: ['待审核', '已通过', '已拒绝', ''],
         records: 100,
         state: 0,
         currentPage: 1,

@@ -27,7 +27,7 @@
         <icon class="el-icon-data-line icon"></icon>
         <div class="info">
           <div>{{item.data1.goodsNum}}</div>
-          <div>新增商品数</div>
+          <div>新增产品数</div>
         </div>
       </div>
       <div class="rect">
@@ -118,7 +118,7 @@
     </div>
 
     <div style="margin-bottom:20px;">
-      <div class="titl">当前商品统计</div>
+      <div class="titl">当前产品统计</div>
       <div class="charts" id='c2'>
 
       </div>
@@ -147,7 +147,7 @@
         </div>
         <div class="endBoxRect">
            <div>{{item.data9.all}}</div>
-          <div>商品佣金额</div>
+          <div>产品佣金额</div>
           <div><span>{{item.data9.yearStr}}年</span><span>{{item.data9.year}}</span></div>
           <div><span>{{item.data9.monthStr}}月</span><span>{{item.data9.month}}</span></div>
         </div>
@@ -254,12 +254,12 @@
         dataset: {
           source: [
 
-            ['总商品数', 0],
-            ['已上架商品数', 0],
-            ['未上架商品数', 0],
-            ['待发货商品数', 0],
-            ['待收货商品数', 0],
-            ['退货退款商品数', 100],
+            ['总产品数', 0],
+            ['已上架产品数', 0],
+            ['未上架产品数', 0],
+            ['待发货产品数', 0],
+            ['待收货产品数', 0],
+            ['退货退款产品数', 100],
           ]
         },
         xAxis: {
