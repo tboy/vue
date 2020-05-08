@@ -5,6 +5,7 @@
 
       <div class="col">
         <div class="titl">订单详情</div>
+        
         <div>下单时间:{{item.createTime}}</div>
         <div>产品名称:{{item.orderItemList?item.orderItemList[0].goodsName:''}}</div>
         <div>产品规格:{{item.orderItemList?item.orderItemList[0].specName:''}}</div>
@@ -116,7 +117,7 @@
 <style>
   .col {
     float: left;
-    width: 32%;
+    width: 100%;
     margin-right: 10px;
   }
 
