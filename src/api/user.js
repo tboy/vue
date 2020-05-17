@@ -15,6 +15,23 @@ export function adminLogout() {
   })
 }
 
+export function getApplyCashList(data) {
+  return request({
+    url: '/mall/manager/applyCash/getApplyCashList',
+    method: 'post',
+    data
+  })
+}
+
+export function auditApplyCash(data) {
+  return request({
+    url: '/mall/manager/applyCash/auditApplyCash',
+    method: 'post',
+    data
+  })
+}
+
+
 
 
 export function login(data) {
