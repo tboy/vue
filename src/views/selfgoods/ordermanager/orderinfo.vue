@@ -21,7 +21,7 @@
               </div>
             </div>
           </td>
-          
+
           <td>
             <div class="col">
               <div class="titl">买家信息</div>
@@ -32,14 +32,13 @@
               <div>联系方式:{{item.tblReceiveAddress?item.tblReceiveAddress.phoneNumber:''}}</div>
               <div>收货地址:{{item.tblReceiveAddress?item.tblReceiveAddress.detailAddress:''}}</div>
             </div>
-            
+
           </td>
         </tr>
       </table>
 
 
-   
-      <div style="width: 50%;height: 20rem;"></div>
+
       <div class="col" v-if="item.orderBack!=null">
         <div class="titl">申请退货理由</div>
         <div>{{item.orderBack.backReason}}:{{item.orderBack.backInfo}}</div>
