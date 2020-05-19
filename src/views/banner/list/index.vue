@@ -4,13 +4,12 @@
     <!-- 表格头部操作 -->
     <div class="filter-container">
 
-      <el-button class="filter-item" type="primary" v-waves  @click="handleFilter">搜索</el-button>
-      <el-button class="filter-item"  type="primary" v-waves  @click="createHeadDialog">+</el-button>
+      <el-button class="filter-item" type="primary" v-waves @click="handleFilter">搜索</el-button>
+      <el-button class="filter-item" type="primary" v-waves @click="createHeadDialog">+</el-button>
 
     </div>
     <!-- 表格 -->
-    <el-table :key='tableKey' :data="list" v-loading="listLoading" stripe border fit highlight-current-row
-              style="width: 100%;min-height:100px;">
+    <el-table :key='tableKey' :data="list" v-loading="listLoading" stripe border fit highlight-current-row style="width: 100%;min-height:100px;">
 
       <el-table-column align="center" label="序号" min-width="150px">
         <template slot-scope="scope">
@@ -20,7 +19,7 @@
 
       <el-table-column align="center" label="图片" min-width="150px">
         <template slot-scope="scope">
-            <img :src="scope.row.imgServer+scope.row.banner" class="xszImg" style="width:100px;height:50px;">
+          <img :src="scope.row.imgServer+scope.row.banner" class="xszImg" style="width:100px;height:50px;">
         </template>
       </el-table-column>
 
@@ -33,19 +32,21 @@
     </el-table>
     <!-- 分页 -->
     <div class="pagination-container">
-      <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="listQuery.currentPage" :page-sizes="[10,20,30, 50]" :page-size="listQuery.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total">
+      <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="listQuery.currentPage"
+        :page-sizes="[10,20,30, 50]" :page-size="listQuery.pageSize" layout="total, sizes, prev, pager, next, jumper"
+        :total="total">
       </el-pagination>
     </div>
     <!-- 增/改弹窗 -->
-    <el-dialog :visible.sync="dialogFormVisible"  v-loading='dialogLoading'>
+    <el-dialog :visible.sync="dialogFormVisible" v-loading='dialogLoading'>
       <div slot="title" class="dialog-footer">
         <h3 class="full-dialog-title">{{dialogTitle}}</h3>
       </div>
       <el-form :rules="valids" ref="dataForm" label-position="left" :model="form" label-width="150px" style=''>
         <!--<el-form-item :label="$t('banner.object')" prop="object">-->
-          <!--<el-input type="text" :rows="2"  class="input-name" v-model="form.object"></el-input>-->
+        <!--<el-input type="text" :rows="2"  class="input-name" v-model="form.object"></el-input>-->
         <!--</el-form-item>-->
-       <!-- <el-form-item label="对象属性" prop="object">
+        <!-- <el-form-item label="对象属性" prop="object">
           <el-select class="filter-item" v-model="form.object" placeholder="请选择">
             <el-option v-for="item in  objs" :key="item.key" :label="item.display_name" :value="item.key">
             </el-option>
@@ -55,28 +56,24 @@
 
 
         <el-form-item label="序号" prop="sort">
-          <el-input type="text" :rows="2"  class="input-name" v-model="form.sort"></el-input>
+          <el-input type="text" :rows="2" class="input-name" v-model="form.sort"></el-input>
         </el-form-item>
 
         <el-form-item label="图片" prop="banner">
-         <!-- <el-input type="text" :rows="2" disabled class="input-name input-file-image" v-model="form.banner"></el-input>
+          <!-- <el-input type="text" :rows="2" disabled class="input-name input-file-image" v-model="form.banner"></el-input>
           <span class="file-show file-page file-image" :style="imageBg" v-loading="fileBtnLoading">{{fileIconText}}</span>
           <input type="file" class="file-update file-page input-image" v-on:change="updateIcon($event)"> -->
 
-          <el-upload
-
-            class="avatar-uploader"
-            :action="uploadPath"
-            :show-file-list="false"
-            :on-success="upload"
-          >
+          <el-upload class="avatar-uploader" :action="uploadPath" :show-file-list="false" :on-success="upload">
             <img v-if="form.banner" :src="form.imgServer+form.banner" class="avatar" />
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </el-form-item>
+        <el-form-item label="跳转路径" prop="action">
+          <el-input type="text" :rows="2" class="input-name" v-model="form.action"></el-input>
+        </el-form-item>
 
-
-        </el-form>
+      </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取消</el-button>
         <el-button type="primary" @click="updateBanner" :loading="btnLoading">确定</el-button>
@@ -89,21 +86,51 @@
 <script>
   import waves from '@/directive/waves' // 水波纹指令
   import banner from '@/api/banner'
-  import {imgPath} from '@/utils/imgUploadPath'
-  const typeOptions = [
-    { key: 1, display_name: '跳转到产品详情页面' },
-    { key: 2, display_name: 'app内部打开URL' },
-    { key: 3, display_name: '外部浏览器打开URL' },
-    { key: 4, display_name: '无操作' },
-    { key: 5, display_name: '拖拉机A页面' },
-    { key: 6, display_name: '拖拉机B页面' },
-    { key: 7, display_name: '跳转APP内页面' },
+  import {
+    imgPath
+  } from '@/utils/imgUploadPath'
+  const typeOptions = [{
+      key: 1,
+      display_name: '跳转到产品详情页面'
+    },
+    {
+      key: 2,
+      display_name: 'app内部打开URL'
+    },
+    {
+      key: 3,
+      display_name: '外部浏览器打开URL'
+    },
+    {
+      key: 4,
+      display_name: '无操作'
+    },
+    {
+      key: 5,
+      display_name: '拖拉机A页面'
+    },
+    {
+      key: 6,
+      display_name: '拖拉机B页面'
+    },
+    {
+      key: 7,
+      display_name: '跳转APP内页面'
+    },
   ]
 
-  const objs = [
-     { key: 'back', display_name: '背景图' },
-    { key: 'white', display_name: '白市坊' },
-    { key: 'grid', display_name: '九宫格' },
+  const objs = [{
+      key: 'back',
+      display_name: '背景图'
+    },
+    {
+      key: 'white',
+      display_name: '白市坊'
+    },
+    {
+      key: 'grid',
+      display_name: '九宫格'
+    },
   ]
 
   const objsOptionsFilter = objs.reduce((acc, cur) => {
@@ -137,19 +164,22 @@
         fileBtnLoading: false,
         imageBg: null,
         valids: {
-          banner: [{ required: true, message: '请选择banner图' }]
+          banner: [{
+            required: true,
+            message: '请选择banner图'
+          }]
         },
         searchRegisterDate: null,
         form: {
           id: '',
-          imgServer:'',
-          banner:'',
+          imgServer: '',
+          banner: '',
           object: null
         },
         listQuery: {
           currentPage: 1,
           pageSize: 10,
-          object:'back',
+          object: 'back',
           name: null,
           id: null,
           searchStarttime: null,
@@ -161,7 +191,7 @@
       typeFilter(type) {
         return typeOptionsFilter[type]
       },
-      objFilter(type){
+      objFilter(type) {
         return objsOptionsFilter[type]
       }
     },
@@ -183,8 +213,8 @@
       },
       upload(res, file) {
 
-         this.form.banner = res.data.path;
-         this.form.imgServer = res.data.server;
+        this.form.banner = res.data.path;
+        this.form.imgServer = res.data.server;
 
       },
       pickerRegisterChange() {
@@ -212,8 +242,8 @@
           type: 0,
           sort: 0,
           banner: '',
-          imgServer:'',
-          action: 'string',
+          imgServer: '',
+          action: '',
 
         }
         this.imageBg = ''
@@ -228,7 +258,7 @@
           type: data.type,
           sort: data.sort,
           banner: data.banner,
-          imgServer:data.imgServer,
+          imgServer: data.imgServer,
           action: data.action
         }
 
@@ -315,24 +345,28 @@
     width: 100PX;
     text-align: center;
   }
-  .file-show{
+
+  .file-show {
     background: #bfc1c5;
     color: #fff;
     border-left: 1px solid #c0c4cc;
     cursor: pointer;
   }
-  .file-update{
+
+  .file-update {
     opacity: 0;
     height: 100%;
     cursor: pointer;
     z-index: 2;
   }
+
   .file-image-page {
     position: relative;
     width: 220px;
     float: left;
   }
-  .file-show.file-image{
+
+  .file-show.file-image {
     position: inherit;
     padding: 56px 0;
     display: inline-block;
@@ -342,13 +376,15 @@
     border-radius: 5px;
     color: #909399;
   }
-  .input-image{
+
+  .input-image {
     left: 0;
     width: 100%;
   }
-  .input-file-image{
+
+  .input-file-image {
     width: 100%;
-    position:absolute;
+    position: absolute;
     opacity: 0;
   }
 </style>
