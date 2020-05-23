@@ -29,14 +29,14 @@
       </el-table-column>
       <el-table-column label="销售价" align="center">
         <template slot-scope="scope">
-          {{scope.row.specificationsList.length>0?scope.row.specificationsList[0].commission:0}}
+          {{scope.row.specificationsList.length>0?scope.row.specificationsList[0].retailPrice:0}}
 
         </template>
 
       </el-table-column>
       <el-table-column label="显示价" align="center">
         <template slot-scope="scope">
-          {{scope.row.specificationsList.length>0?scope.row.specificationsList[0].retailPrice:0}}
+          {{scope.row.specificationsList.length>0?scope.row.specificationsList[0].commission:0}}
 
         </template>
       </el-table-column>
