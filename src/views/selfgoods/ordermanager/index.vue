@@ -31,13 +31,13 @@
       <el-table-column prop="createTime" label="下单时间" align="center" />
       <el-table-column label="用户" align="center">
         <template slot-scope="scope">
-          {{ scope.row.usersVo? scope.row.usersVo.nickname:'' }}
+          {{ scope.row.userAccount }}
         </template>
       </el-table-column>
 
       <el-table-column label="手机号" align="center">
         <template slot-scope="scope">
-          {{ scope.row.usersVo? scope.row.usersVo.username:'' }}
+          {{ scope.row.phone}}
         </template>
       </el-table-column>
 

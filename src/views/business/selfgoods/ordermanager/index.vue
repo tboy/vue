@@ -161,6 +161,7 @@
         this.isShow2 = true
       },
       editKdd() {
+        this.isShow2 = false
         this.kdd.deliveryNo = this.reasonTxt
         updateDeliveryNo(this.kdd).then(res => {
           this.$message({
